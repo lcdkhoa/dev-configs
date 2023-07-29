@@ -1,0 +1,815 @@
+{
+  "referenceId": "123",
+  "sourceSystem": "PRUJOURNEY",
+  "channel": "AGENCY",
+  "agentCode": "702201",
+  "data": {
+    "clientId": "de7d2712-4f00-412f-ba1b-812ace909410",
+    "client": {
+      "ageNextBirthday": 31,
+      "countryOfBirth": "SNG",
+      "dob": "3/1/1993",
+      "educationCode": "SEC",
+      "employmentType": "F",
+      "typeOfPass": "EP",
+      "gender": "M",
+      "title": "MR",
+      "maritalStatus": "M",
+      "nationality": "SNG",
+      "occupationCode": "ACCT",
+      "otherOccupation": "Freelancer",
+      "englishProficiency": true,
+      "selfEmployed": true,
+      "prNationality": "DZA", 
+      "smoker": true, 
+      "trustedIndividual": {
+        "accompanied": true,
+        "trusteeRelationship": "SO"
+      },
+      "medicalConditionDisclosure": {
+        "medicalCondition": true,
+        "medicalConditionInfo": "Mildly severe"
+      }
+    },
+    "dependents": {
+      "haveFinancialSupportDependents": true,
+      "dependentsDisclosed": true,
+      "reasonDependentUndisclosed": "Private and Confidential", 
+      "reasonDependentUndisclosedOthers": null,
+      "dependents": [
+        {
+          "id": "ae7d2712-4f00-412f-ba1b-851ace909410",
+          "ageNextBirthday": 5,
+          "dob": "3/1/2018",
+          "gender": "M",
+          "occupationCode": "ACCT",
+          "otherOccupation": null,
+          "relationship": "SO",
+          "yearsOfSupport": 20 
+        }
+      ]
+    },
+    "fna": [
+      {
+        "clientId": "de7d2712-4f00-412f-ba1b-812ace909410",
+        "hopesAndDreams": {
+          "protection": {
+            "deathProtection": true,
+            "totalPermanentDisabilityProtection": false,
+            "criticalIllnessProtection": true,
+            "hospitalProtection": false,
+            "longTermCareProtection": false,
+            "lossOfIncomeProtection": false,
+            "fractureNeedProtection": false,
+            "genderRelatedIllnessProtection": false,
+            "personalAccidentProtection": false,
+            "waiverOfPremium": false
+          },
+          "accumulation": {
+            "retirementAccumulation": true,
+            "savingsAccumulation": true,
+            "childrenEducationSavings": null,
+            "childrenSavings": null
+          }
+        },
+        "financialDetail": {
+          "assetAndLiability": {
+            "totalAssets": 0,
+            "totalNetWorth": 0,
+            "totalLiabilities": 0,
+            "assets": [
+              {
+                "assetType": "INVESTMENT_PORTFOLIO",
+                "assetValue": 10000,
+                "roi": null,
+                "otherAssetType": null,
+                "investmentPlan": [
+                  {
+                    "type": "OTHERS",
+                    "sourceOfFund": "CASH",
+                    "investmentAmount": 10000,
+                    "frequency": "SEMI_ANNUALLY",
+                    "currencyType": "SGD",
+                    "currentValue": 10000,
+                    "region": "SNG",
+                    "sector": "SNG"
+                  }
+                ]
+              },
+              {
+                "assetType": "RESIDENTIAL_PROPERTY",
+                "assetValue": 10000,
+                "roi": 10.9,
+                "otherAssetType": null,
+                "investmentPlan": null
+              }
+            ],
+            "liabilities": [
+              {
+                "liabilityType": "MORTGAGE",
+                "liabilityValue": 20000,
+                "otherLiabilityType": null
+              }
+            ],
+            "disclosure": {
+              "disclose": true,
+              "discloseReason": null,
+              "otherReason": null
+            },
+            "significantChangeDeclaration": {
+              "isExpected": false,
+              "reasonForChange": null
+            }
+          },
+          "incomeAndExpense": {
+            "netCashFlow": 0,
+            "netIncome": 0,
+            "netExpense": 0,
+            "incomeOverview": {
+              "annualIncomeBeforeCPF": 84000,
+              "annualEmployeeCPFContribution": 17120,
+              "netAnnualIncome": 86880,
+              "monthlyIncomeBeforeCPF": 10, 
+              "totalTakeHomeAnnualIncome": 96880,
+              "annualBonusAmount": 20000,
+              "passiveIncome": [
+                {
+                  "type": "OTHERS",
+                  "description": null,
+                  "annualAmount": 10000,
+                  "monthlyAmount": 1000, 
+                  "frequency": "ANNUALLY" 
+                }
+              ]
+            },
+            "expenseOverview": {
+              "totalAnnualExpenses": 10000,
+              "expense": [
+                { 
+                  "type": "PERSONAL_EXPENSE",
+                  "description": null,
+                  "annualAmount": 1000,
+                  "monthlyAmount": 1000, 
+                  "frequency": "ANNUALLY" 
+                }
+              ]
+            },
+            "significantChangeDeclaration": {
+              "isExpected": false,
+              "reasonForChange": null
+            },
+            "disclosure": {
+              "disclose": true,
+              "discloseReason": null,
+              "otherReason": null
+            }
+          },
+          "budget": {
+            " lumpSumAmount": {
+              "cash": 0,
+              "cpfma": 0,
+              "cpfoa": 0,
+              "cpfsa": 0,
+              "srs": 0
+            },
+            "annualAmount": {
+              "cash": 0,
+              "cpfma": 0,
+              "cpfoa": 0,
+              "cpfsa": 0,
+              "srs": 0
+            },
+            "substantialAmount": false
+          },
+          "existingInsurance": {
+            "haveExistingInsurance": true,
+            "consentToRetrieveInsurance": true,
+            "reasonNotConsentToRetrieveInsurance": null,
+            "existingPolicies": {
+              "wealthAccumulationInsurance": [
+                {
+                  "lifeAssured": "Desmond Leong",
+                  "policyName": "AU Wealth Protector",
+                  "policyNumber": "A1234567",
+                  "insuranceCompany": "AdviseU Insur Ltd",
+                  "policyType": "ILP RSP",
+                  "deductibleAndCoInsurance": false,
+                  "policyTerm": 0,
+                  "maturityDate": "1/1/2040",
+                  "regularPremium": 1000,
+                  "singlePremium": 20000,
+                  "projectedMaturityValue": 500000,
+                  "currentCashValue": 100000,
+                  "wealthAccumulationGoal": "EDUCATION",
+                  "benefits": {
+                    "criticalIllness": 0,
+                    "death": 500000,
+                    "educationRetirementSavings": "E",
+                    "hospitalType": null,
+                    "hospitalWardType": null,
+                    "longTermCare": 0,
+                    "lossOfIncome": 0,
+                    "genderRelatedIllness": 0,
+                    "personalAccident": 0,
+                    "totalPermanentDisability": 0,
+                    "fracture": 0
+                  }
+                }
+              ],
+              "wealthProtectionInsurance": [
+                {
+                  "lifeAssured": "John",
+                  "policyName": "Testing",
+                  "policyNumber": "12345",
+                  "insuranceCompany": "Prudential",
+                  "policyType": "Group policy",
+                  "deductibleAndCoInsurance": false,
+                  "policyTerm": 12,
+                  "singlePremium": 10000.99,
+                  "regularPremium": 1000.99,
+                  "benefits": {
+                    "criticalIllness": 0,
+                    "death": 500000,
+                    "educationRetirementSavings": "E",
+                    "hospitalType": null,
+                    "hospitalWardType": null,
+                    "longTermCare": 0,
+                    "lossOfIncome": 0,
+                    "genderRelatedIllness": 0,
+                    "personalAccident": 0,
+                    "totalPermanentDisability": 0,
+                    "fracture": 0
+                  }
+                }
+              ],
+              "disclosure": {
+                "disclose": true,
+                "discloseReason": null,
+                "otherReason": null
+              }
+            }
+          }
+        },
+        "needAnalysis": {
+          "wealthProtectionNeed": {
+            "deathProtection": {
+              "desiredAnnualIncomeReplacement": 100000,
+              "durationOfGoal": 20,
+              "inflationAdjustedRateOfReturn": 0.01,
+              "finalExpenses": 10000,
+              "emergencyFund": 30000,
+              "mortgagePayment": 300000,
+              "personalDebts": 10000,
+              "others": 10000,
+              "totalCashNeeds": 360000,
+              "totalShortFall": 1822600.8495933162,
+              "capitalSumRequired": 1822600.8495933164,
+              "isPremiumSupport": true,
+              "premiumSupportAcknowledgement": true,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "dependentDeathProtection": null,
+            "totalPermanentDisabilityProtection": {
+              "desiredAnnualIncomeReplacement": 100000,
+              "durationOfGoal": 25,
+              "inflationAdjustedRateOfReturn": 0.01,
+              "medicalExpenses": 200000,
+              "totalCashNeeds": 57260204.82161637,
+              "capitalSumRequired": 57260204.82161637,
+              "totalShortFall": 57160204.82161637,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "dependentTotalPermanentDisabilityProtection": null,
+            "criticalIllnessProtection": {
+              "desiredAnnualIncomeRequirements": 200000,
+              "durationOfGoal": 20,
+              "inflationAdjustedRateOfReturn": 0.01,
+              "estimatedTreatmentCosts": 100000,
+              "capitalSumRequired": 3645201.699186633,
+              "totalShortFall": 3715201.699186633,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "hospitalProtection": {
+              "hospitalType": "PRIVATE",
+              "hospitalWardType": "A",
+              "deductibleAndCoInsurance": true,
+              "existingCoverage": [
+                {
+                  "hospitalType": "PRIVATE",
+                  "hospitalWardType": "A",
+                  "deductibleAndCoInsurance": true
+                }
+              ]
+            },
+            "longTermCareProtection": {
+              "replacementIncomeNeededPerMonth": 10000,
+              "capitalSumRequired": 3096924.9865545123,
+              "totalShortFall": 3046924.9865545123,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "personalAccidentProtection": {
+              "amountNeeded": 124214.0,
+              "capitalSumRequired": 12443.0,
+              "totalShortfall": 213124.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "fractureNeedProtection": {
+              "amountNeeded": 200000,
+              "capitalSumRequired": 200000,
+              "totalShortFall": 170000,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "lossOfIncomeProtection": {
+              "amountNeeded": 200000,
+              "capitalSumRequired": 200000,
+              "totalShortfall": 170000,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "genderRelatedIllnessProtection": {
+              "amountNeeded": 124214.0,
+              "capitalSumRequired": 12443.0,
+              "totalShortfall": 213124.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            }
+          },
+          "wealthAccumulationNeed": {
+            "retirementAccumulation": {
+              "ageNextBirthday": 30,
+              "retirementAge": 62,
+              "durationOfGoal": 20,
+              "preferredMethod": "Income",
+              "annualIncome": 10000,
+              "rateOfIncomeIncrement": 0.03,
+              "projectedAnnualIncomeRequiredAtRetirement": 10000,
+              "annualIncomeRequiredAtRetirement": 376908.1184202258,
+              "annualExpense": 200000,
+              "expensesAtRetirement": 376908.1184202258,
+              "inflationAdjustedRateOfReturn": 0.02,
+              "inflationRate": 0,
+              "yearsToGoal": 32,
+              "capitalSumRequired": 9022314.039431518,
+              "totalShortFall": 9019314.039431518,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "savingsAccumulation": {
+              "savingsGoal": "Children education",
+              "yearsToGoal": 22,
+              "amountNeeded": 2423.0,
+              "capitalSumRequired": 134324.0,
+              "totalShortfall": 12343.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "childrenEducationSavings": null,
+            "childrenSavings": null
+          }
+        },
+        "riskProfile": {
+          "rpq": {
+            "yearsOfInvestmentExperience": 1,
+            "acceptableLoss": 2,
+            "holdInvestmentUntil": 2,
+            "yearsToManageWithoutIncome": 2,
+            "riskiestAssetSelection": 2,
+            "yearsToRetire": 2,
+            "riskTotalScore": 11,
+            "riskProfile": "Low to Medium Risk",
+            "riskProfileSummary": "My goal is to use my investments to keep pace with inflation. I can accept some ups and downs in the value of my investments. I understand this means sometimes the value may become less than the amount I invest, in order to achieve the potential of some real capital growth."
+          },
+          "cka": {
+            "education": {
+              "hasDiplomaOrHigher": true,
+              "qualification": "Accountancy"
+            },
+            "transactionExperience": {
+              "hasPerformedTransaction": true,
+              "typeOfTransaction": "Collective investment schemes"
+            },
+            "investmentExperience": {
+              "hasInvestmentExperience": true,
+              "jobNature": "Accountancy"
+            },
+            "resultDescription": "You are deemed to have knowledge and/ or experience for transactions in an ILP  / CIS. Your Financial Consultant is still required to recommend fund(s)/ portfolio(s) which is or are in line with, or lower than your risk profile.
+Note: If you do not accept your Financial Consultant’s recommendation and choose fund(s)/ portfolio(s) with a higher risk, then the responsibility to ensure the suitability of the ILP  / CIS selected would become yours. You will also not be able to rely on the Financial Adviser’s Act to file a civil claim in the event you allege you suffered a loss."
+          }
+        }
+      },
+      {
+        "clientId": "ae7d2712-4f00-412f-ba1b-851ace909410",
+        "hopesAndDreams": {
+          "protection": {
+            "deathProtection": true,
+            "totalPermanentDisabilityProtection": false,
+            "criticalIllnessProtection": true,
+            "hospitalProtection": false,
+            "longTermCareProtection": null,
+            "lossOfIncomeProtection": false,
+            "fractureNeedProtection": false,
+            "genderRelatedIllnessProtection": false,
+            "personalAccidentProtection": false,
+            "waiverOfPremium": null
+          },
+          "accumulation": {
+            "retirementAccumulation": null,
+            "savingsAccumulation": null,
+            "childrenEducationSavings": false,
+            "childrenSavings": true
+          }
+        },
+        "financialDetail": {
+          "assetAndLiability": null,
+          "incomeAndExpense": null,
+          "budget": null,
+          "existingInsurance": {
+            "haveExistingInsurance": true,
+            "consentToRetrieveInsurance": true,
+            "reasonNotConsentToRetrieveInsurance": null,
+            "existingPolicies": {
+              "wealthAccumulationInsurance": [
+                {
+                  "lifeAssured": "Desmond Leong",
+                  "policyName": "AU Wealth Protector",
+                  "policyNumber": "A1234567",
+                  "insuranceCompany": "AdviseU Insur Ltd",
+                  "policyType": "ILP RSP",
+                  "deductibleAndCoInsurance": false,
+                  "policyTerm": 0,
+                  "maturityDate": "1/1/2040",
+                  "regularPremium": 1000,
+                  "singlePremium": 20000,
+                  "projectedMaturityValue": 500000,
+                  "currentCashValue": 100000,
+                  "wealthAccumulationGoal": "EDUCATION",
+                  "benefits": {
+                    "criticalIllness": 0,
+                    "death": 500000,
+                    "educationRetirementSavings": "E",
+                    "hospitalType": null,
+                    "hospitalWardType": null,
+                    "longTermCare": 0,
+                    "lossOfIncome": 0,
+                    "genderRelatedIllness": 0,
+                    "personalAccident": 0,
+                    "totalPermanentDisability": 0,
+                    "fracture": 0
+                  }
+                }
+              ],
+              "wealthProtectionInsurance": [
+                {
+                  "lifeAssured": "John",
+                  "policyName": "Testing",
+                  "policyNumber": "12345",
+                  "insuranceCompany": "Prudential",
+                  "policyType": "Group policy",
+                  "deductibleAndCoInsurance": false,
+                  "policyTerm": 12,
+                  "singlePremium": 10000.99,
+                  "regularPremium": 1000.99,
+                  "benefits": {
+                    "criticalIllness": 0,
+                    "death": 500000,
+                    "educationRetirementSavings": "E",
+                    "hospitalType": null,
+                    "hospitalWardType": null,
+                    "longTermCare": 0,
+                    "lossOfIncome": 0,
+                    "genderRelatedIllness": 0,
+                    "personalAccident": 0,
+                    "totalPermanentDisability": 0,
+                    "fracture": 0
+                  }
+                }
+              ],
+              "disclosure": {
+                "disclose": true,
+                "discloseReason": null,
+                "otherReason": null
+              }
+            }
+          }
+        },
+        "needAnalysis": {
+          "wealthProtectionNeed": {
+            "deathProtection": null,
+            "dependentDeathProtection": {
+              "finalExpenses": 450000.0,
+              "loans": 20000.0,
+              "others": 20000.0,
+              "totalCashNeeds": 45000.0,
+              "capitalSumRequired": 130000.0,
+              "totalShortFall": 130000.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "totalPermanentDisabilityProtection": null,
+            "dependentTotalPermanentDisabilityProtection": {
+              "inflationAdjustedRateOfReturn": 0.01,
+              "durationOfGoal": 25,
+              "expensesOnTpd": 12367.0,
+              "medicalExpenses": 12424.0,
+              "totalCashNeeds": 324324.0,
+              "capitalSumRequired": 23434.0,
+              "totalShortfall": 235325.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "criticalIllnessProtection": {
+              "desiredAnnualIncomeRequirements": 124214.0,
+              "durationOfGoal": 25,
+              "inflationAdjustedRateOfReturn": 0.03,
+              "estimatedTreatmentCosts": 123213.0,
+              "capitalSumRequired": 213124.0,
+              "totalShortfall": 123123.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "hospitalProtection": {
+              "hospitalType": "PRIVATE",
+              "hospitalWardType": "A",
+              "deductibleAndCoInsurance": true,
+              "existingCoverage": [
+                {
+                  "hospitalType": "PRIVATE",
+                  "hospitalWardType": "A",
+                  "deductibleAndCoInsurance": true
+                }
+              ]
+            },
+            "personalAccidentProtection": {
+              "amountNeeded": 124214.0,
+              "capitalSumRequired": 12443.0,
+              "totalShortfall": 213124.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "fractureNeedProtection": {
+              "amountNeeded": 124214.0,
+              "capitalSumRequired": 12443.0,
+              "totalShortfall": 213124.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "lossOfIncomeProtection": {
+              "amountNeeded": 124214.0,
+              "capitalSumRequired": 12443.0,
+              "totalShortfall": 213124.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+	    "longTermCare": null,
+            "genderRelatedIllnessProtection": {
+              "amountNeeded": 124214.0,
+              "capitalSumRequired": 12443.0,
+              "totalShortfall": 213124.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            }
+          },
+          "wealthAccumulationNeed": {
+            "retirementAccumulation": null,
+            "savingsAccumulation": null,
+            "childrenEducationSavings": {
+              "yearsToGoal": 30,
+              "amountNeeded": 2343.0,
+              "countryOfStudy": "Singapore",
+              "inflationRate": 3.03,
+              "capitalSumRequired": 124214.0,
+              "totalShortfall": 1242.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            },
+            "childrenSavings": {
+              "savingsGoal": "Children living expenses",
+              "yearsToGoal": 30,
+              "amountNeeded": 32532.0,
+              "capitalSumRequired": 235325.0,
+              "totalShortfall": 23535.0,
+              "toAddressNow": true,
+              "existingResources": 15000,
+              "resourceBreakdown": {
+                "existingInsurance": 10000,
+                "existingAssets": 5000,
+                "assetBreakdown": [
+                  {
+                    "assetType": "RESIDENTIAL_PROPERTY",
+                    "allocation": 100,
+                    "allocationValue": 5000
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "riskProfile": null
+      }
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "success": true,
+  "referenceId": "123",
+  "errors": [
+    {
+      "code": "RE001",
+      "description": "Lorem abc"
+    }
+  ]
+}

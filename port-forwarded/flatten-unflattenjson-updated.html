@@ -1,0 +1,155 @@
+
+<style>
+textarea { height: 400px; width: 100%; }
+</style>
+<h1>flatten json</h1>
+<textarea id="data">[]</textarea>
+<button id="goByLine">line-by-line</button>
+<button id="goWhole">as whole object</button>
+<button id="unFlatten">Un-Flattens</button>
+<textarea id="result"></textarea>
+
+<small>
+  Flattens multi-level JSON objects (useful for converting complex JSON to CSV format).
+  With line-by-line, make sure you don't have a blank last line or you'll get <em>unexpected end of input</em>.
+  Further problems, as always, check the console.
+</small>
+
+<script>
+document.getElementById('goByLine').addEventListener('click', function () {
+  var dataList = document.getElementById('data').value,
+      result = '';
+
+  try {
+    dataList = dataList.split(/[\r\n]+/);
+    for (var i in dataList)
+    {
+      if (dataList[i].length !== undefined && dataList[i].length == 0)
+        continue;
+
+      var thisObj = JSON.parse(dataList[i]);
+      console.log('parsing line', i, thisObj);
+      result = result + JSON.stringify(flatten(thisObj)) +"\n";
+    }
+
+    console.log('we did it', i);
+    document.getElementById('result').value = result;
+  }
+  catch (e) {
+    document.getElementById('result').value = "Error: "+ e;
+  }
+});
+
+document.getElementById('goWhole').addEventListener('click', function () {
+  var data = document.getElementById('data').value,
+      result = '';
+
+  try {
+    var thisObj = JSON.parse(data);
+    console.log('parsing object', thisObj);
+    result = result + JSON.stringify(flatten(thisObj));
+
+    console.log('we did it');
+    document.getElementById('result').value = result;
+  }
+  catch (e) {
+    document.getElementById('result').value = "Error: "+ e;
+  }
+});
+document.getElementById('unFlatten').addEventListener('click', function () {
+  var data = document.getElementById('data').value,
+      result = '';
+
+  try {
+    var thisObj = JSON.parse(data);
+    console.log('parsing object', thisObj);
+    result = result + JSON.stringify(unflatten(thisObj));
+    console.log('we did it');
+    document.getElementById('result').value = result;
+  }
+  catch (e) {
+    document.getElementById('result').value = "Error: "+ e;
+  }
+});
+var unflatten = function (json) {
+  const result = {};
+  for (const key in json) {
+    const value = json[key];
+    let current = result;
+    const parts = key.split('.');
+    for (let i = 0; i < parts.length; i++) {
+      const isArray = /^([^\[]+)\[(\d+)\]$/.exec(parts[i]);
+      if (isArray) {
+        const arrKey = isArray[1];
+        const arrIndex = parseInt(isArray[2], 10);
+        if (!current[arrKey]) {
+          current[arrKey] = [];
+        }
+        if (i === parts.length - 1) {
+          current[arrKey][arrIndex] = value;
+        } else {
+          if (!current[arrKey][arrIndex]) {
+            current[arrKey][arrIndex] = {};
+          }
+          current = current[arrKey][arrIndex];
+        }
+      } else {
+        if (i === parts.length - 1) {
+          current[parts[i]] = value;
+        } else {
+          if (!current[parts[i]]) {
+            current[parts[i]] = {};
+          }
+          current = current[parts[i]];
+        }
+      }
+    }
+  }
+  return result;
+}
+
+
+// http://stackoverflow.com/questions/19098797/fastest-way-to-flatten-un-flatten-nested-json-objects
+var flatten = (function (isArray, wrapped) {
+    return function (table) {
+        return reduce("", {}, table);
+    };
+
+    function reduce(path, accumulator, table) {
+        if (isArray(table)) {
+            var length = table.length;
+
+            if (length) {
+                var index = 0;
+
+                while (index < length) {
+                    var property = path + "[" + index + "]", item = table[index++];
+                    if (wrapped(item) !== item) accumulator[property] = item;
+                    else reduce(property, accumulator, item);
+                }
+            } else accumulator[path] = table;
+        } else {
+            var empty = true;
+
+            if (path) {
+                for (var property in table) {
+                    var item = table[property], property = path + "." + property, empty = false;
+                    if (wrapped(item) !== item) accumulator[property] = item;
+                    else reduce(property, accumulator, item);
+                }
+            } else {
+                for (var property in table) {
+                    var item = table[property], empty = false;
+                    if (wrapped(item) !== item) accumulator[property] = item;
+                    else reduce(property, accumulator, item);
+                }
+            }
+
+            if (empty) accumulator[path] = table;
+        }
+
+        return accumulator;
+    }
+}(Array.isArray, Object));
+
+</script>

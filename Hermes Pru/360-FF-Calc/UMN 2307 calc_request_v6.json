@@ -1,0 +1,179 @@
+{
+  "referenceId": "123",
+  "sourceSystem": "PRUJOURNEY",
+  "channel": "POS",
+  "agentCode": "702201",
+  "data": {
+    "clientId": "A14578",
+    "result": [
+      {
+        "fieldName": "deathProtection",
+        "base": {
+          "desiredAnnualIncomeReplacement": 100000,
+          "durationOfGoal": 20,
+          "emergencyFund": 30000,
+          "existingAssets": 350000,
+          "existingInsurance": 10000,
+          "finalExpenses": 10000,
+          "inflationAdjustedRateOfReturn": 0.01,
+          "mortgagePayment": 300000,
+          "others": 10000,
+          "personalDebts": 10000
+        }
+      },
+      {
+        "fieldName": "dependentDeathProtection",
+        "base": {
+          "existingAssets": 350000,
+          "existingInsurance": 10000,
+          "finalExpenses": 450000,
+          "loans": 20000,
+          "others": 20000
+        }
+      },
+      {
+        "fieldName": "criticalIllnessProtection",
+        "base": {
+          "desiredAnnualIncomeRequirements": 200000,
+          "durationOfGoal": 20,
+          "estimatedTreatmentCosts": 100000,
+          "existingAssets": 10000,
+          "existingInsurance": 20000,
+          "inflationAdjustedRateOfReturn": 0.01
+        }
+      },
+      {
+        "fieldName": "retirementAccumulation",
+        "base": {
+          "ageNextBirthday": 30,
+          "annualExpense": 200000,
+          "annualIncome": 10000,
+          "durationOfGoal": 20,
+          "existingAssets": 1000,
+          "existingInsurance": 2000,
+          "inflationAdjustedRateOfReturn": 0.02,
+          "preferredMethod": "Income",
+          "rateOfIncomeIncrement": 0.03,
+          "retirementAge": 62
+        }
+      },
+      {
+        "fieldName": "totalPermanentDisabilityProtection",
+        "base": {
+          "desiredAnnualIncomeReplacement": 100000,
+          "durationOfGoal": 25,
+          "existingAssets": 200000,
+          "existingInsurance": 100000,
+          "inflationAdjustedRateOfReturn": 0.01,
+          "medicalExpenses": 200000
+        }
+      },
+      {
+        "fieldName": "savingsAccumulation",
+        "base": {
+          "amountNeeded": 200000,
+          "existingAssets": 20000,
+          "existingInsurance": 10000,
+          "yearsToGoal": 20
+        }
+      },
+      {
+        "fieldName": "childrenSavings",
+        "base": {
+          "amountNeeded": 200000,
+          "existingAssets": 20000,
+          "existingInsurance": 10000,
+          "yearsToGoal": 20
+        }
+      },
+      {
+        "fieldName": "childrenEducationSavings",
+        "base": {
+          "amountNeeded": 300000,
+          "countryOfStudy": "Singapore",
+          "existingAssets": 20000,
+          "existingInsurance": 10000,
+          "inflationRate": 0.03,
+          "yearsToGoal": 10
+        }
+      },
+      {
+        "fieldName": "longTermCareProtection",
+        "base": {
+          "existingAssets": 0,
+          "existingInsurance": 0,
+          "replacementIncomeNeededPerMonth": 10000
+        }
+      },
+      {
+        "fieldName": "lossOfIncomeProtection",
+        "base": {
+          "amountNeeded": 200000,
+          "existingAssets": 20000,
+          "existingInsurance": 10000
+        }
+      },
+      {
+        "fieldName": "genderRelatedIllnessProtection",
+        "base": {
+          "amountNeeded": 200000,
+          "existingAssets": 20000,
+          "existingInsurance": 10000
+        }
+      },
+      {
+        "fieldName": "personalAccidentProtection",
+        "base": {
+          "amountNeeded": 200000,
+          "existingAssets": 20000,
+          "existingInsurance": 10000
+        }
+      },
+      {
+        "fieldName": "fractureNeedProtection",
+        "base": {
+          "amountNeeded": 200000,
+          "existingAssets": 20000,
+          "existingInsurance": 10000
+        }
+      },
+      {
+        "fieldName": "riskProfile",
+        "base": {
+          "acceptableLoss": 2,
+          "holdInvestmentUntil": 2,
+          "riskiestAssetSelection": 2,
+          "yearsOfInvestmentExperience": 1,
+          "yearsToManageWithoutIncome": 2,
+          "yearsToRetire": 2
+        }
+      },
+      {
+        "fieldName": "customerKnowledgeAssessment",
+        "base": {
+          "hasDiplomaOrHigher": true,
+          "hasInvestmentExperience": true,
+          "hasPerformedTransactions": true
+        }
+      },
+      {
+        "fieldName": "incomeAndExpense",
+        "base": {
+          "age": 30,
+          "annualBonusAmount": 10000,
+          "annualDividendsAmount": 0,
+          "annualFamilyExpense": 500,
+          "annualFixedExpense": 500,
+          "annualIncomeBeforeCPF": 7000,
+          "annualLuxuryExpense": 500,
+          "otherExpenseDescription": "Personal",
+          "annualOtherIncomeAmount": 0,
+          "annualPersonalExpense": 50000,
+          "annualPropertyRentalIncomeAmount": 0,
+          "otherIncomeDescription": null,
+	  "annualOtherExpense" : 10000
+        }
+      }
+    ]
+  }
+}
