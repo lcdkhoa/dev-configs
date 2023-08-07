@@ -1,5 +1,7 @@
-oh-my-posh init pwsh --config 'D:\configs\window_terminal_config\charlie-custom-config.omp.json' | Invoke-Expression
-
+oh-my-posh init pwsh --config 'D:\local-repo\charlie-custom-config.omp.json' | Invoke-Expression
+if (-Not (Get-Module -Name PSReadLine -ListAvailable)) {
+    Install-Module -Name PSReadLine -Scope CurrentUser -Force -SkipPublisherCheck
+}
 
 # Add auto complete (requires PSReadline 2.2.0-beta1+ prerelease)
 Set-PSReadLineOption -PredictionSource History
