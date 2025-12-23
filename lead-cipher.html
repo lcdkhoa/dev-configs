@@ -1,0 +1,230 @@
+Jump to
+Confluence navigation
+Side navigation
+Page
+This page was in the background for too long and may not have fully loaded. Try to refresh the page
+
+Home
+
+Recent
+
+Spaces
+
+People
+
+Apps
+Templates
+Create
+Search
+
+
+
+
+Quickstart
+
+
+Digital Sales Fulfilment Agency
+
+…
+LMS - API
+
+
+
+
+
+Share
+
+AES Encryption
+
+
+
+
+Created by Kanyanat Kutawan
+Last updated: Sep 28, 2022 by narutep wongsaita1 min read
+13 people viewed
+For the request or response that contain customer or agent PII data, it should encrypt with AES
+
+Select Mode: CBC
+
+Key Size in Bits: 256
+
+Input/Output Text Format: Base64
+
+Enter Secret Key: 1234567890abcdef0987654321fedcba
+
+ 
+
+cipher tool file:
+
+
+lead-cipher.html
+28 Sep 2022, 02:11 PM
+ 
+
+Add label
+Related pages
+
+
+personal-info-list
+personal-info-list
+Digital Sales Fulfilment Agency
+Often read together
+manage-personal-info
+manage-personal-info
+Digital Sales Fulfilment Agency
+page-tree-icon
+Organized together
+send-consent
+send-consent
+Digital Sales Fulfilment Agency
+Often read together
+
+Be the first to add a reaction
+2 page comments
+
+
+narutep wongsaita
+Sep 08, 2022
+
+Encryption step:
+
+content binary to base 64 encode
+
+AES encrypt from step 1
+
+base 64 encode from step 2
+
+ 
+
+Reply
+
+
+
+narutep wongsaita
+Sep 08, 2022
+
+Decryption step:
+
+decode base 64 data to binary
+
+AES decrypt from step 1
+
+decode base 64 binary from step 2 to UTF8 string
+
+ 
+
+Reply
+
+
+
+
+Write a comment…
+
+Lead-cipher.html
+html · 3 KB
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
+<script>
+  function doEncrypt() {
+    // read input
+    var content = CryptoJS.enc.Utf8.parse(
+      document.getElementById("content").value
+    );
+    // encode input to base64
+    var base64Content = CryptoJS.enc.Utf8.parse(
+      CryptoJS.enc.Base64.stringify(content)
+    );
+
+    // init iv & secret
+    var iv = CryptoJS.lib.WordArray.random(16);
+    var secret = CryptoJS.enc.Utf8.parse(
+      document.getElementById("secret").value
+    );
+
+    // encrypt
+    var encrypted = CryptoJS.AES.encrypt(base64Content, secret, {
+      iv: iv,
+    });
+
+    // concat encrypted with iv
+    var result = CryptoJS.enc.Utf8.parse("");
+    result.concat(iv);
+    result.concat(encrypted.ciphertext);
+
+    document.getElementById("mode").innerHTML = "Mode: encrypt";
+    document.getElementById("result").innerHTML =
+      CryptoJS.enc.Base64.stringify(result);
+  }
+
+  function doDecrypt() {
+    //parse base64 to word
+    var content = CryptoJS.enc.Base64.parse(
+      document.getElementById("content").value
+    );
+
+    // extract cipher text without iv
+    var ivBlock = CryptoJS.lib.WordArray.random(16);
+    var contentSize = content.words.length - ivBlock.words.length;
+    var contentStart = ivBlock.words.length;
+    var contentEnd = content.words.length;
+    var ciphertext = CryptoJS.lib.WordArray.create(
+      content.words.slice(contentStart, contentEnd)
+    );
+    ciphertext = CryptoJS.enc.Base64.stringify(ciphertext);
+
+    // extract iv
+    var parsed_iv = CryptoJS.lib.WordArray.create(
+      content.words.slice(0, ivBlock.words.length)
+    );
+
+    // get secret
+    var secret = CryptoJS.enc.Utf8.parse(
+      document.getElementById("secret").value
+    );
+
+    // decrypt
+    var decrypted = CryptoJS.AES.decrypt(ciphertext, secret, {
+      iv: parsed_iv,
+    });
+
+    // decode base64 to raw content
+    var base64Content = decrypted.toString(CryptoJS.enc.Utf8);
+    document.getElementById("mode").innerHTML = "Mode: decrypt";
+    document.getElementById("result").innerHTML = CryptoJS.enc.Base64.parse(
+      base64Content
+    ).toString(CryptoJS.enc.Utf8);
+  }
+</script>
+
+<div>
+  <label for="content">Content:</label>
+  <textarea id="content" rows="10" cols="50">
+{
+"name": "มนุษย์",
+"surname": "เงินเดือน"
+}
+</textarea
+  >
+</div>
+
+<div>
+  <label for="secret">secret key:</label>
+  <input
+    type="text"
+    id="secret"
+    value="1234567890abcdef0987654321fedcba"
+  /><br />
+</div>
+
+<br />
+<button onclick="doEncrypt();">Encrypt</button>
+<button onclick="doDecrypt();">Decrypt</button>
+<br />
+
+<div>
+  <div id="mode"></div>
+  <label>result:</label>
+  <textarea id="result" rows="10" cols="50"></textarea>
+</div>
+

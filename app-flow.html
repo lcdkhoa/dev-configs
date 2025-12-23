@@ -1,0 +1,3479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, interactive-widget=resizes-content">
+    <title>Medly - Your Health AI Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        /* Google Pixel Phone Frame */
+        .pixel-frame {
+            width: 393px;
+            height: 851px;
+            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+            border-radius: 32px;
+            padding: 8px;
+            margin: 20px auto;
+            box-shadow: 
+                0 0 0 2px #333,
+                0 20px 40px rgba(0, 0, 0, 0.3),
+                0 10px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pixel-screen {
+            width: 100%;
+            height: 100%;
+            background: #000;
+            border-radius: 24px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pixel-notch {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 24px;
+            background: #000;
+            border-radius: 0 0 12px 12px;
+            z-index: 1000;
+        }
+
+        .pixel-status-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 44px;
+            background: rgba(0, 0, 0, 0.1);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #fff;
+            z-index: 999;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .status-right {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pixel-nav-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 24px;
+            background: rgba(0, 0, 0, 0.8);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+        .nav-indicator {
+            width: 134px;
+            height: 4px;
+            background: #fff;
+            border-radius: 2px;
+            opacity: 0.8;
+        }
+
+        .app-viewport {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            min-height: calc(100vh - 112px);
+            overflow: auto;
+            transition: all 0.3s ease;
+        }
+
+        /* Device-specific viewport styles */
+        .app-viewport.device-iphone14 {
+            width: 390px;
+            max-width: 390px;
+            border: none;
+            border-radius: 25px;
+            background: transparent;
+        }
+
+        .app-viewport.device-pixel7 {
+            width: 412px;
+            max-width: 412px;
+            border: none;
+            border-radius: 15px;
+            background: transparent;
+        }
+
+        .app-viewport.device-galaxys23 {
+            width: 360px;
+            max-width: 360px;
+            border: none;
+            border-radius: 20px;
+            background: transparent;
+        }
+
+        .app-viewport.device-iphone13mini {
+            width: 375px;
+            max-width: 375px;
+            border: none;
+            border-radius: 22px;
+            background: transparent;
+        }
+
+        /* Device-specific frame styles */
+        .pixel-frame.device-iphone14 {
+            width: 406px; /* 390px + 16px padding */
+            height: 860px; /* 844px + 16px padding */
+            border-radius: 32px;
+            background: linear-gradient(145deg, #1d1d1f, #000);
+            box-shadow: 
+                0 0 0 2px #007AFF,
+                0 20px 40px rgba(0, 122, 255, 0.2),
+                0 10px 20px rgba(0, 122, 255, 0.1);
+            transform-origin: center center;
+            transform: scale(0.6);
+        }
+
+        .pixel-frame.device-pixel7 {
+            width: 428px; /* 412px + 16px padding */
+            height: 931px; /* 915px + 16px padding */
+            border-radius: 24px;
+            background: linear-gradient(145deg, #2c2c2c, #1a1a1a);
+            box-shadow: 
+                0 0 0 2px #34A853,
+                0 20px 40px rgba(52, 168, 83, 0.2),
+                0 10px 20px rgba(52, 168, 83, 0.1);
+            transform-origin: center center;
+            transform: scale(0.55);
+        }
+
+        .pixel-frame.device-galaxys23 {
+            width: 376px; /* 360px + 16px padding */
+            height: 796px; /* 780px + 16px padding */
+            border-radius: 28px;
+            background: linear-gradient(145deg, #1a1a2e, #16213e);
+            box-shadow: 
+                0 0 0 2px #1976D2,
+                0 20px 40px rgba(25, 118, 210, 0.2),
+                0 10px 20px rgba(25, 118, 210, 0.1);
+            transform-origin: center center;
+            transform: scale(0.65);
+        }
+
+        .pixel-frame.device-iphone13mini {
+            width: 391px; /* 375px + 16px padding */
+            height: 828px; /* 812px + 16px padding */
+            border-radius: 30px;
+            background: linear-gradient(145deg, #2c1810, #1a0f08);
+            box-shadow: 
+                0 0 0 2px #FF6B35,
+                0 20px 40px rgba(255, 107, 53, 0.2),
+                0 10px 20px rgba(255, 107, 53, 0.1);
+            transform-origin: center center;
+            transform: scale(0.7);
+        }
+
+        /* Adjust body for Pixel frame */
+        body {
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            min-height: 80dvh; /* Use dynamic viewport height - reduced for better mobile UX */
+            height: 80dvh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            /* Prevent content from being hidden by mobile browser UI */
+            padding-top: max(50px, env(safe-area-inset-top));
+            padding-bottom: max(50px, env(safe-area-inset-bottom));
+            padding-left: max(20px, env(safe-area-inset-left));
+            padding-right: max(20px, env(safe-area-inset-right));
+            box-sizing: border-box;
+        }
+
+        /* Adjust app container for Pixel viewport */
+        .app-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Developer Tools Toggle */
+        .design-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: var(--md-sys-elevation-level2);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .design-toggle:hover {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            transform: translateY(-2px);
+            box-shadow: var(--md-sys-elevation-level3);
+        }
+
+        /* Developer Tools Tooltip */
+        .design-tooltip {
+            position: absolute;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+            color: #2c3e50;
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            max-width: 280px;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
+            cursor: pointer;
+        }
+
+        .design-tooltip.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .design-tooltip .tooltip-title {
+            margin: 0 0 8px 0;
+            color: #1a202c;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .design-tooltip .tooltip-specs {
+            margin: 6px 0;
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-size: 10px;
+            color: #4a5568;
+            background: rgba(0, 0, 0, 0.04);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border-left: 3px solid #667eea;
+        }
+
+        .design-tooltip .tooltip-description {
+            margin: 8px 0 0 0;
+            color: #718096;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .design-tooltip:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Color information styles */
+        .tooltip-colors {
+            margin: 8px 0 0 0;
+            padding: 8px 0 0 0;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* New inline tooltip color palette */
+        .tooltip-color-inline {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 4px 0;
+            padding: 6px 8px;
+            border-radius: 6px;
+            background: rgba(0, 0, 0, 0.05);
+            transition: background 0.2s ease;
+        }
+
+        .tooltip-color-inline:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .tooltip-color-inline .color-swatch {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+        }
+
+        .tooltip-color-inline .color-name {
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--md-sys-color-on-surface);
+            min-width: 60px;
+        }
+
+        .tooltip-color-inline .color-value {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            color: var(--md-sys-color-on-surface-variant);
+            font-weight: 400;
+        }
+
+        .color-info {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            margin: 4px 0;
+            gap: 2px;
+            width: 100%;
+            flex-wrap: nowrap !important;
+        }
+
+        .color-swatch {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            border: 1px solid rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.2);
+        }
+
+        .color-details {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 8px;
+            min-width: 0;
+            flex: 1;
+        }
+
+        .color-type {
+            font-size: 9px;
+            color: #718096;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .color-hex {
+            font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
+            font-size: 10px;
+            color: #4a5568;
+            cursor: pointer;
+            padding: 2px 4px;
+            border-radius: 3px;
+            background: rgba(0, 0, 0, 0.04);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .color-hex:hover {
+            background: rgba(0, 0, 0, 0.08);
+            color: #2d3748;
+        }
+
+
+
+        .copy-button {
+            background: none;
+            border: none;
+            padding: 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #718096;
+            transition: all 0.2s ease;
+            margin-left: 8px;
+        }
+
+        .copy-button:hover {
+            background: rgba(102, 126, 234, 0.1);
+            color: #667eea;
+        }
+
+        .copy-button.copied {
+            color: #48bb78;
+        }
+
+        /* Developer Tools Mode */
+        .design-mode .designable {
+            position: relative;
+            cursor: help;
+        }
+
+        .design-mode .designable::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border: 2px dashed var(--md-sys-color-primary);
+            border-radius: inherit;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .design-mode .designable:hover::before {
+            opacity: 0.6;
+        }
+
+        /* Developer Tools Panel */
+        .design-panel {
+            position: fixed;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100vh;
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            box-shadow: var(--md-sys-elevation-level3);
+            transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 9998;
+            overflow-y: auto;
+            padding: 24px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .design-panel.open {
+            right: 0;
+        }
+
+        .design-panel h2 {
+            margin: 60px 0 24px 0;
+            color: var(--md-sys-color-primary);
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        .design-section {
+            margin-bottom: 20px;
+            display: block !important;
+            visibility: visible !important;
+        }
+
+        .design-section h3 {
+            margin: 0 0 16px 0;
+            color: var(--md-sys-color-on-surface);
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        /* Device Selector Styles */
+        .device-selector {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+
+        .device-option {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 12px 8px;
+            background: var(--md-sys-color-surface-variant);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .device-option:hover {
+            background: var(--md-sys-color-primary-container);
+            border-color: var(--md-sys-color-primary);
+        }
+
+        .device-option.active {
+            background: var(--md-sys-color-primary-container);
+            border-color: var(--md-sys-color-primary);
+            color: var(--md-sys-color-primary);
+        }
+
+        .device-option .material-icons {
+            font-size: 19px;
+            margin-bottom: 4px;
+        }
+
+        .device-option span:not(.material-icons) {
+            font-size: 11px;
+            font-weight: 500;
+            margin-bottom: 2px;
+        }
+
+        .device-option small {
+            font-size: 9px;
+            opacity: 0.7;
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+            width: 100%;
+        }
+
+        .color-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            background: var(--md-sys-color-surface-variant);
+            min-width: 0;
+            width: 100%;
+            box-sizing: border-box;
+            flex-direction: row;
+        }
+
+        .color-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+
+        .color-info {
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: left;
+            align-items: flex-start;
+        }
+
+        .color-name {
+            font-weight: 500;
+            font-size: 13px;
+            margin-bottom: 4px;
+            line-height: 1.2;
+            display: block;
+            text-align: left;
+        }
+
+        .color-value {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 11px;
+            opacity: 0.7;
+            line-height: 1.2;
+            display: block;
+            text-align: left;
+        }
+
+        /* CSS Inspector Styles */
+        .css-inspector {
+            background: var(--md-sys-color-surface-variant);
+            border-radius: 12px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            overflow: hidden;
+        }
+
+        .css-inspector-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: var(--md-sys-color-surface-container);
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .css-inspector-header span {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+        }
+
+        .copy-css-btn {
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+            border: none;
+            border-radius: 8px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .copy-css-btn:hover {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        .copy-css-btn .material-icons {
+            font-size: 17px;
+        }
+
+        .css-inspector-content {
+            padding: 16px;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        .css-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 24px;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .css-placeholder .material-icons {
+            font-size: 47px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        .css-placeholder p {
+            margin: 0;
+        }
+
+        .css-element-info {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            font-size: 12px;
+        }
+
+        .css-property {
+            display: flex;
+            margin-bottom: 6px;
+            padding: 4px 0;
+            border-bottom: 1px solid var(--md-sys-color-outline-variant);
+        }
+
+        .css-property:last-child {
+            border-bottom: none;
+        }
+
+        .css-property-name {
+            color: var(--md-sys-color-primary);
+            font-weight: 600;
+            min-width: 120px;
+            margin-right: 8px;
+        }
+
+        .css-property-value {
+            color: var(--md-sys-color-on-surface);
+            flex: 1;
+            word-break: break-all;
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .css-property {
+            margin-bottom: 8px;
+            padding: 8px;
+            background: var(--md-sys-color-surface);
+            border-radius: 6px;
+            border-left: 3px solid var(--md-sys-color-primary);
+        }
+
+        .css-property-name {
+            color: var(--md-sys-color-primary);
+            font-weight: 600;
+        }
+
+        .css-property-value {
+            color: var(--md-sys-color-on-surface);
+            margin-left: 8px;
+        }
+
+        .css-element-info {
+            background: var(--md-sys-color-primary-container);
+            color: var(--md-sys-color-on-primary-container);
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .typography-sample {
+            margin-bottom: 16px;
+            padding: 16px;
+            border-radius: 8px;
+            background: var(--md-sys-color-surface-variant);
+        }
+
+        .typography-sample h4 {
+            margin: 0 0 8px 0;
+            color: var(--md-sys-color-primary);
+        }
+
+        .typography-specs {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 12px;
+            opacity: 0.7;
+            margin-bottom: 8px;
+        }
+
+        /* Material 3 Design Tokens */
+        :root {
+            /* Primary Colors */
+        --md-sys-color-primary: #FF6B35;
+        --md-sys-color-on-primary: #FFFFFF;
+        --md-sys-color-primary-container: #FFE5DB;
+        --md-sys-color-on-primary-container: #5C1A00;
+            
+            /* Secondary Colors */
+        --md-sys-color-secondary: #8B5A3C;
+        --md-sys-color-on-secondary: #FFFFFF;
+        --md-sys-color-secondary-container: #FFDCC2;
+        --md-sys-color-on-secondary-container: #2E1500;
+        
+        /* Tertiary Colors */
+        --md-sys-color-tertiary: #A8634A;
+        --md-sys-color-on-tertiary: #FFFFFF;
+        --md-sys-color-tertiary-container: #FFDCC2;
+        --md-sys-color-on-tertiary-container: #3A1F0A;
+        
+        /* Surface Colors */
+        --md-sys-color-surface: #FFFBF7;
+        --md-sys-color-on-surface: #201A17;
+        --md-sys-color-surface-variant: #F2E7DC;
+        --md-sys-color-on-surface-variant: #52443C;
+
+        /* Background */
+        --md-sys-color-background: #FFFBF7;
+        --md-sys-color-on-background: #201A17;
+            
+            /* Error Colors */
+            --md-sys-color-error: #BA1A1A;
+            --md-sys-color-on-error: #FFFFFF;
+            --md-sys-color-error-container: #FFDAD6;
+            --md-sys-color-on-error-container: #410002;
+            
+            /* Outline */
+        --md-sys-color-outline: #85736B;
+        --md-sys-color-outline-variant: #D6C2B6;
+            
+            /* Health AI App Specific Colors */
+        --fitness-green: #4CAF50;
+        --fitness-orange: #FF6B35;
+        --fitness-blue: #FF8A65;
+            
+            /* Typography */
+            --md-sys-typescale-display-large-font: 'Roboto';
+            --md-sys-typescale-display-large-size: 57px;
+            --md-sys-typescale-display-large-weight: 400;
+            
+            --md-sys-typescale-headline-large-font: 'Roboto';
+            --md-sys-typescale-headline-large-size: 32px;
+            --md-sys-typescale-headline-large-weight: 400;
+            
+            --md-sys-typescale-title-large-font: 'Roboto';
+            --md-sys-typescale-title-large-size: 22px;
+            --md-sys-typescale-title-large-weight: 400;
+            
+            --md-sys-typescale-body-large-font: 'Roboto';
+            --md-sys-typescale-body-large-size: 16px;
+            --md-sys-typescale-body-large-weight: 400;
+            
+            /* Elevation */
+            --md-sys-elevation-level0: none;
+            --md-sys-elevation-level1: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+            --md-sys-elevation-level2: 0px 1px 2px 0px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+            --md-sys-elevation-level3: 0px 1px 3px 0px rgba(0, 0, 0, 0.3), 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+            
+            /* Shape */
+            --md-sys-shape-corner-none: 0px;
+            --md-sys-shape-corner-extra-small: 4px;
+            --md-sys-shape-corner-small: 8px;
+            --md-sys-shape-corner-medium: 12px;
+            --md-sys-shape-corner-large: 16px;
+            --md-sys-shape-corner-extra-large: 28px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--md-sys-typescale-body-large-font);
+            background-color: var(--md-sys-color-background);
+            color: var(--md-sys-color-on-background);
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* Screen Container */
+        .screen-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.4s cubic-bezier(0.4, 0.0, 0.2, 1);
+            padding: 24px;
+            background: linear-gradient(135deg, var(--md-sys-color-primary-container) 0%, var(--md-sys-color-surface) 100%);
+            overflow-y: auto;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .screen.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .screen.prev {
+            transform: translateX(-100%);
+        }
+
+        /* Scroll Animation Classes */
+        .screen.scroll-up {
+            animation: scrollUpTransition 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        .screen.scroll-down {
+            animation: scrollDownTransition 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        .screen.slide-left {
+            animation: slideLeftTransition 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        .screen.slide-right {
+            animation: slideRightTransition 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        /* Scroll Transition Animations */
+        @keyframes scrollUpTransition {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(-20px) scale(0.95);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(0.9);
+            }
+        }
+
+        @keyframes scrollDownTransition {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(20px) scale(0.95);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0.9);
+            }
+        }
+
+        @keyframes slideLeftTransition {
+            0% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(-100%);
+            }
+        }
+
+        @keyframes slideRightTransition {
+            0% {
+                opacity: 1;
+                transform: translateX(0);
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+        }
+
+        /* Scroll Entrance Animations */
+        .screen.enter-from-top {
+            animation: enterFromTop 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        .screen.enter-from-bottom {
+            animation: enterFromBottom 0.6s cubic-bezier(0.4, 0.0, 0.2, 1) forwards;
+        }
+
+        @keyframes enterFromTop {
+            0% {
+                opacity: 0;
+                transform: translateY(-100vh) scale(0.9);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(-20px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        @keyframes enterFromBottom {
+            0% {
+                opacity: 0;
+                transform: translateY(100vh) scale(0.9);
+            }
+            50% {
+                opacity: 0.7;
+                transform: translateY(20px) scale(0.95);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Enhanced Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            z-index: 1000;
+            opacity: 0;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4px 0;
+        }
+
+        .scroll-indicator.visible {
+            opacity: 1;
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .scroll-indicator[data-scroll-direction="up"] {
+            box-shadow: 0 -2px 8px rgba(var(--md-sys-color-primary-rgb), 0.3);
+        }
+
+        .scroll-indicator[data-scroll-direction="down"] {
+            box-shadow: 0 2px 8px rgba(var(--md-sys-color-primary-rgb), 0.3);
+        }
+
+        .scroll-indicator .progress-bar {
+            position: absolute;
+            bottom: 4px;
+            left: 0;
+            width: 100%;
+            height: calc(100% - 8px);
+            background: var(--md-sys-color-primary);
+            border-radius: 3px;
+            transform-origin: bottom;
+            transform: scaleY(0);
+            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .scroll-indicator .scroll-thumb {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--md-sys-color-on-primary);
+            border-radius: 50%;
+            left: -1px;
+            top: 4px;
+            transform: translateY(0);
+            transition: transform 0.2s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .scroll-indicator .scroll-percentage {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 10px;
+            color: var(--md-sys-color-on-surface);
+            background: rgba(var(--md-sys-color-surface-rgb), 0.9);
+            padding: 2px 4px;
+            border-radius: 4px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .scroll-indicator:hover .scroll-percentage {
+            opacity: 1;
+        }
+
+        /* Screen Progress Indicator */
+        .screen-progress {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            background: rgba(var(--md-sys-color-surface-rgb), 0.9);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(var(--md-sys-color-outline-rgb), 0.2);
+        }
+
+        .screen-progress.visible {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .screen-progress .progress-track {
+            width: 60px;
+            height: 4px;
+            background: rgba(var(--md-sys-color-outline-rgb), 0.3);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .screen-progress .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--md-sys-color-primary), var(--md-sys-color-secondary));
+            border-radius: 2px;
+            width: var(--progress, 20%);
+            transition: width 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+            position: relative;
+        }
+
+        .screen-progress .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 8px;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4));
+            animation: progressShimmer 2s infinite;
+        }
+
+        @keyframes progressShimmer {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        .screen-progress .progress-text {
+            font-size: 12px;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            min-width: 30px;
+        }
+
+        /* Touch Gesture Simulation */
+        .gesture-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 999;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gesture-overlay.active {
+            opacity: 1;
+        }
+
+        .gesture-indicator {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--md-sys-color-primary);
+            border-radius: 50%;
+            background: rgba(var(--md-sys-color-primary-rgb), 0.2);
+            transform: scale(0);
+            animation: gestureRipple 0.6s ease-out;
+        }
+
+        @keyframes gestureRipple {
+            0% {
+                transform: scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        /* Smooth Scroll Enhancement */
+        .screen::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        .screen::-webkit-scrollbar-thumb {
+            background: transparent;
+        }
+
+        /* Content Animation on Scroll */
+        .scroll-animate {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+        }
+
+        .scroll-animate.in-view {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-animate.delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .scroll-animate.delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .scroll-animate.delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        /* Splash Screen */
+        .splash-screen {
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, var(--md-sys-color-primary) 0%, var(--fitness-blue) 100%);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        .app-logo {
+            width: 120px;
+            height: 120px;
+            background: var(--md-sys-color-on-primary);
+            border-radius: var(--md-sys-shape-corner-extra-large);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            animation: logoFloat 2s ease-in-out infinite alternate;
+        }
+
+        .app-logo .material-icons {
+            font-size: 64px;
+            color: var(--md-sys-color-primary);
+        }
+
+        @keyframes logoFloat {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-10px); }
+        }
+
+        .app-title {
+            font-size: var(--md-sys-typescale-display-large-size);
+            font-weight: var(--md-sys-typescale-display-large-weight);
+            margin-bottom: 8px;
+            text-align: center;
+        }
+
+        .app-subtitle {
+            font-size: var(--md-sys-typescale-title-large-size);
+            opacity: 0.8;
+            text-align: center;
+        }
+
+        /* Welcome Screen */
+        .welcome-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .welcome-illustration {
+            width: 220px;
+            height: 220px;
+            background: var(--md-sys-color-primary-container);
+            border-radius: var(--md-sys-shape-corner-extra-large);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-illustration::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--fitness-green), var(--fitness-orange), var(--fitness-blue));
+            opacity: 0.1;
+            animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(180deg); }
+        }
+
+        .welcome-illustration .material-icons {
+            font-size: 120px;
+            color: var(--md-sys-color-primary);
+            z-index: 1;
+        }
+
+        .welcome-title {
+            font-size: var(--md-sys-typescale-headline-large-size);
+            font-weight: 500;
+            margin-bottom: 16px;
+            color: var(--md-sys-color-on-background);
+        }
+
+        .welcome-description {
+            font-size: var(--md-sys-typescale-body-large-size);
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 1.5;
+            margin-bottom: 24px;
+            max-width: 320px;
+        }
+
+        /* Form Screens */
+        .form-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .form-title {
+            font-size: var(--md-sys-typescale-headline-large-size);
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--md-sys-color-on-background);
+        }
+
+        .form-subtitle {
+            font-size: var(--md-sys-typescale-body-large-size);
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        /* Material 3 Text Fields */
+        .text-field {
+            position: relative;
+            margin-bottom: 24px;
+        }
+
+        .text-field input {
+            width: 100%;
+            padding: 16px;
+            border: 1px solid var(--md-sys-color-outline);
+            border-radius: var(--md-sys-shape-corner-extra-small);
+            background: var(--md-sys-color-surface);
+            color: var(--md-sys-color-on-surface);
+            font-size: var(--md-sys-typescale-body-large-size);
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .text-field input:focus {
+            border-color: var(--md-sys-color-primary);
+            border-width: 2px;
+            padding: 15px;
+        }
+
+        .text-field label {
+            position: absolute;
+            left: 16px;
+            top: 16px;
+            color: var(--md-sys-color-on-surface-variant);
+            font-size: var(--md-sys-typescale-body-large-size);
+            transition: all 0.2s ease;
+            pointer-events: none;
+            background: var(--md-sys-color-surface);
+            padding: 0 4px;
+        }
+
+        .text-field input:focus + label,
+        .text-field input:not(:placeholder-shown) + label {
+            top: -8px;
+            font-size: 12px;
+            color: var(--md-sys-color-primary);
+        }
+
+        /* Material 3 Buttons */
+        .btn {
+            padding: 16px 24px;
+            border: none;
+            border-radius: var(--md-sys-shape-corner-large);
+            font-size: var(--md-sys-typescale-body-large-size);
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+            margin-bottom: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: currentColor;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .btn:hover::before {
+            opacity: 0.08;
+        }
+
+        .btn:active::before {
+            opacity: 0.12;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--md-sys-color-primary) 0%, #FF8A65 100%);
+            color: var(--md-sys-color-on-primary);
+            box-shadow: 0 4px 16px rgba(255, 107, 53, 0.3), 0 2px 8px rgba(255, 107, 53, 0.2);
+            font-weight: 600;
+            font-size: 18px;
+            padding: 20px 32px;
+            border-radius: 32px;
+            transform: translateY(0);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4), 0 4px 12px rgba(255, 107, 53, 0.3);
+            background: linear-gradient(135deg, #FF8A65 0%, var(--md-sys-color-primary) 100%);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--md-sys-color-secondary-container);
+            color: var(--md-sys-color-on-secondary-container);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--md-sys-color-primary);
+            border: 1px solid var(--md-sys-color-outline);
+        }
+
+        /* SSO Buttons */
+        .sso-buttons {
+            margin: 24px 0;
+        }
+
+        .btn-google {
+            background: #FFFFFF;
+            color: #1F1F1F;
+            border: 1px solid var(--md-sys-color-outline);
+        }
+
+        .btn-apple {
+            background: #000000;
+            color: #FFFFFF;
+        }
+
+        .google-icon, .apple-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: var(--md-sys-color-on-surface-variant);
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--md-sys-color-outline-variant);
+        }
+
+        .divider span {
+            padding: 0 16px;
+            font-size: 14px;
+        }
+
+        /* Navigation */
+        .nav-link {
+            color: var(--md-sys-color-primary);
+            text-decoration: none;
+            font-weight: 500;
+            text-align: center;
+            padding: 16px;
+            transition: color 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--md-sys-color-on-primary-container);
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: absolute;
+            top: 24px;
+            left: 24px;
+            width: 48px;
+            height: 48px;
+            border: none;
+            background: var(--md-sys-color-surface);
+            border-radius: var(--md-sys-shape-corner-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--md-sys-elevation-level1);
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .back-btn:hover {
+            box-shadow: var(--md-sys-elevation-level2);
+        }
+
+        .back-btn .material-icons {
+            color: var(--md-sys-color-on-surface);
+        }
+
+        /* Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin: 32px 0;
+        }
+
+        .feature-card {
+            background: var(--md-sys-color-surface);
+            border-radius: var(--md-sys-shape-corner-medium);
+            padding: 20px;
+            text-align: center;
+            box-shadow: var(--md-sys-elevation-level1);
+            transition: all 0.2s ease;
+        }
+
+        .feature-card:hover {
+            box-shadow: var(--md-sys-elevation-level2);
+            transform: translateY(-2px);
+        }
+
+        .feature-icon {
+            width: 48px;
+            height: 48px;
+            background: var(--md-sys-color-primary-container);
+            border-radius: var(--md-sys-shape-corner-medium);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 12px;
+        }
+
+        .feature-icon .material-icons {
+            color: var(--md-sys-color-primary);
+            font-size: 24px;
+        }
+
+        .feature-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 4px;
+        }
+
+        .feature-desc {
+            font-size: 12px;
+            color: var(--md-sys-color-on-surface-variant);
+            line-height: 1.3;
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--md-sys-color-on-primary);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            .screen {
+                padding: 16px;
+            }
+            
+            .welcome-illustration {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .app-title {
+                font-size: 48px;
+            }
+            
+            /* Mobile touch improvements for design mode */
+            .design-mode .designable {
+                -webkit-tap-highlight-color: rgba(59, 130, 246, 0.3);
+                tap-highlight-color: rgba(59, 130, 246, 0.3);
+                cursor: pointer;
+            }
+            
+            .design-mode .designable:active {
+                background-color: rgba(59, 130, 246, 0.1);
+            }
+            
+
+            
+            /* Make design tooltip more mobile-friendly */
+            .design-tooltip {
+                max-width: 280px;
+                font-size: 12px;
+            }
+        }
+
+        /* Success Animation */
+        @keyframes checkmark {
+            0% {
+                stroke-dashoffset: 100;
+            }
+            100% {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        .success-checkmark {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+        }
+
+        .success-checkmark circle {
+            stroke: var(--fitness-green);
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 251;
+            stroke-dashoffset: 251;
+            animation: checkmark 0.5s ease-in-out 0.5s forwards;
+        }
+
+        .success-checkmark path {
+            stroke: var(--fitness-green);
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 60;
+            stroke-dashoffset: 60;
+            animation: checkmark 0.3s ease-in-out 1s forwards;
+        }
+    </style>
+</head>
+<body>
+        <!-- Enhanced Scroll Indicator -->
+        <div class="scroll-indicator" id="scrollIndicator">
+            <div class="progress-bar"></div>
+            <div class="scroll-thumb"></div>
+            <div class="scroll-percentage">0%</div>
+        </div>
+        
+        <!-- Screen Progress Indicator -->
+        <div class="screen-progress" id="screenProgress">
+            <div class="progress-track">
+                <div class="progress-fill"></div>
+            </div>
+            <span class="progress-text">1 / 5</span>
+        </div>
+        
+        <!-- Gesture Overlay -->
+        <div class="gesture-overlay" id="gestureOverlay"></div>
+        
+        <!-- Developer Tools Toggle -->
+        <button class="design-toggle" onclick="toggleDesignMode()">
+            <span class="material-icons" style="margin-right: 8px; font-size: 18px;">code</span>
+            Dev Tools
+        </button>
+
+        <!-- Design System Tooltip -->
+        <div class="design-tooltip" id="designTooltip"></div>
+
+
+
+        <!-- Developer Tools Panel -->
+        <div class="design-panel" id="designPanel">
+            <h2>Development Inspector</h2>
+            
+            <div class="design-section" id="devices">
+                <h3>Device Preview</h3>
+                <div class="device-selector">
+                    <div class="device-option active" data-device="iphone14" onclick="switchDevice('iphone14')">
+                        <span class="material-icons">smartphone</span>
+                        <span>📱 iPhone 14</span>
+                        <small>390×844</small>
+                    </div>
+                    <div class="device-option" data-device="pixel7" onclick="switchDevice('pixel7')">
+                        <span class="material-icons">android</span>
+                        <span>🤖 Pixel 7</span>
+                        <small>412×915</small>
+                    </div>
+                    <div class="device-option" data-device="galaxys23" onclick="switchDevice('galaxys23')">
+                        <span class="material-icons">phone_android</span>
+                        <span>📱 Galaxy S23</span>
+                        <small>360×780</small>
+                    </div>
+                    <div class="device-option" data-device="iphone13mini" onclick="switchDevice('iphone13mini')">
+                        <span class="material-icons">smartphone</span>
+                        <span>📱 iPhone 13 Mini</span>
+                        <small>375×812</small>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="design-section">
+                <h3>CSS Inspector</h3>
+                <div class="css-inspector">
+                    <div class="css-inspector-header">
+                        <span>Hover over elements to inspect CSS</span>
+                        <button class="copy-css-btn" onclick="copyCSSToClipboard()" title="Copy CSS">
+                            <span class="material-icons">content_copy</span>
+                        </button>
+                    </div>
+                    <div class="css-inspector-content" id="cssInspectorContent">
+                        <div class="css-placeholder">
+                            <span class="material-icons">search</span>
+                            <p>Hover over any element to see its CSS properties</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="design-section">
+                <h3>Color Palette</h3>
+                <div class="color-grid">
+                    <div class="color-item">
+                    <div class="color-swatch" style="background: var(--md-sys-color-primary);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Primary</div>
+                        <div class="color-value">#FF6B35</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: var(--md-sys-color-secondary);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Secondary</div>
+                        <div class="color-value">#8B5A3C</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: var(--md-sys-color-tertiary);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Tertiary</div>
+                        <div class="color-value">#A8634A</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: var(--md-sys-color-surface);"></div>
+                    <div class="color-info">
+                        <div class="color-name">Surface</div>
+                        <div class="color-value">#FFFBF7</div>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+            <div class="design-section">
+                <h3>Typography Styles</h3>
+                <div class="typography-sample">
+                    <h4>Display Large</h4>
+                    <div class="typography-specs">Font: Roboto, Size: 57px, Weight: 400</div>
+                    <div style="font-size: 32px; font-weight: 400;">Sample Text</div>
+                </div>
+                <div class="typography-sample">
+                    <h4>Headline Large</h4>
+                    <div class="typography-specs">Font: Roboto, Size: 32px, Weight: 400</div>
+                    <div style="font-size: 24px; font-weight: 400;">Sample Text</div>
+                </div>
+                <div class="typography-sample">
+                    <h4>Body Large</h4>
+                    <div class="typography-specs">Font: Roboto, Size: 16px, Weight: 400</div>
+                    <div style="font-size: 16px; font-weight: 400;">Sample Text</div>
+                </div>
+            </div>
+
+            <div class="design-section">
+                <h3>Elevation Levels</h3>
+                <div style="padding: 16px; margin: 8px 0; border-radius: 12px; box-shadow: var(--md-sys-elevation-level1);">Level 1</div>
+                <div style="padding: 16px; margin: 8px 0; border-radius: 12px; box-shadow: var(--md-sys-elevation-level2);">Level 2</div>
+                <div style="padding: 16px; margin: 8px 0; border-radius: 12px; box-shadow: var(--md-sys-elevation-level3);">Level 3</div>
+            </div>
+        </div>
+
+        <!-- Google Pixel Phone Frame -->
+        <div class="pixel-frame">
+        <div class="pixel-screen">
+            <!-- Pixel Status Bar -->
+                <div class="pixel-status-bar">
+                    <div class="status-left">
+                        <span style="font-weight: 500;">9:41</span>
+                    </div>
+                    <div class="status-right">
+                        <svg width="18" height="12" viewBox="0 0 18 12" fill="none">
+                            <rect x="1" y="3" width="4" height="6" rx="1" fill="white" opacity="0.6"/>
+                            <rect x="7" y="2" width="4" height="8" rx="1" fill="white" opacity="0.8"/>
+                            <rect x="13" y="1" width="4" height="10" rx="1" fill="white"/>
+                        </svg>
+                        <svg width="17" height="12" viewBox="0 0 17 12" fill="none">
+                            <path d="M1 6C1 6 4 2 8.5 2S16 6 16 6" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="8.5" cy="6" r="2" fill="white"/>
+                        </svg>
+                        <svg width="24" height="12" viewBox="0 0 24 12" fill="none">
+                            <rect x="2" y="2" width="18" height="8" rx="2" stroke="white" stroke-width="1.5" fill="none"/>
+                            <rect x="20" y="4" width="2" height="4" rx="0.5" fill="white"/>
+                            <rect x="4" y="4" width="14" height="4" rx="1" fill="white"/>
+                        </svg>
+                    </div>
+                </div>
+
+            <!-- App Viewport -->
+            <div class="app-viewport">
+                <div class="app-container">
+                    <div class="screen-container">
+                        <!-- Splash Screen -->
+        <div class="screen splash-screen active" id="splash">
+            <div class="app-logo designable" 
+                 data-design-title="App Logo"
+                 data-design-specs="Size: 120px, Color: Primary, Animation: Float"
+                 data-design-description="Material 3 app logo with floating animation. Uses primary color token and fitness_center icon from Material Icons.">
+                <span class="material-icons designable"
+                      data-design-title="Material Icon"
+                      data-design-specs="Icon: fitness_center, Size: 64px, Color: Primary"
+                      data-design-description="Material Design icon representing health and medical assistance.">health_and_safety</span>
+            </div>
+            <h1 class="app-title designable"
+                data-design-title="App Title"
+                data-design-specs="Typography: Display Large, Weight: 400, Color: On-Primary"
+                data-design-description="Main application title using Material 3 Display Large typography scale.">Medly</h1>
+            <p class="app-subtitle designable"
+               data-design-title="App Subtitle"
+               data-design-specs="Typography: Title Large, Weight: 400, Color: On-Primary"
+               data-design-description="Application subtitle describing the app's purpose.">Your Personal Health AI Assistant</p>
+        </div>
+
+        <!-- Welcome Screen -->
+        <div class="screen" id="welcome">
+            <div class="welcome-content">
+                <div class="welcome-illustration designable scroll-animate"
+                     data-design-title="Welcome Illustration"
+                     data-design-specs="Icon: health_and_safety, Size: 64px, Color: Primary"
+                     data-design-description="Material icon representing health and fitness, used as the main welcome screen illustration.">
+                    <span class="material-icons designable"
+                          data-design-title="Health Icon"
+                          data-design-specs="Icon: health_and_safety, Size: 64px, Color: Primary"
+                          data-design-description="Material icon symbolizing health and safety for fitness tracking.">health_and_safety</span>
+                </div>
+                <h2 class="welcome-title designable scroll-animate delay-1"
+                    data-design-title="Welcome Title"
+                    data-design-specs="Typography: Headline Medium, Weight: 400, Color: On-Surface"
+                    data-design-description="Main welcome screen title using Material 3 Headline Medium typography scale.">Welcome to Medly</h2>
+                <p class="welcome-description designable scroll-animate delay-2"
+                   data-design-title="Welcome Description"
+                   data-design-specs="Typography: Body Large, Weight: 400, Color: On-Surface-Variant"
+                   data-design-description="Welcome screen description text explaining the app's purpose and features.">
+                    Get personalized health insights, AI-powered recommendations, and intelligent assistance to optimize your wellness journey with advanced health monitoring.
+                </p>
+                
+                <div class="features-grid designable"
+                     data-design-title="Features Grid"
+                     data-design-specs="Layout: CSS Grid, Columns: 2, Gap: 16px, Responsive: Yes"
+                     data-design-description="Grid layout showcasing app features using Material 3 card components.">
+                    <div class="feature-card designable"
+                         data-design-title="Feature Card"
+                         data-design-specs="Component: Card, Elevation: Level 1, Radius: 16px, Padding: 16px"
+                         data-design-description="Material 3 card component displaying individual app features.">
+                        <div class="feature-icon designable"
+                             data-design-title="Feature Icon Container"
+                             data-design-specs="Container: Icon wrapper, Size: 48px, Background: Primary Container"
+                             data-design-description="Container for feature icons with primary container background.">
+                            <span class="material-icons designable"
+                                  data-design-title="AI Health Icon"
+                                  data-design-specs="Icon: psychology, Size: 24px, Color: On-Primary-Container"
+                                  data-design-description="Material icon representing AI health monitoring functionality.">psychology</span>
+                        </div>
+                        <div class="feature-title designable"
+                             data-design-title="Feature Title"
+                             data-design-specs="Typography: Title Small, Weight: 500, Color: On-Surface"
+                             data-design-description="Feature card title using Title Small typography.">AI Health Monitoring</div>
+                        <div class="feature-desc designable"
+                             data-design-title="Feature Description"
+                             data-design-specs="Typography: Body Small, Weight: 400, Color: On-Surface-Variant"
+                             data-design-description="Feature card description using Body Small typography.">Intelligent health tracking with AI insights</div>
+                    </div>
+                    <div class="feature-card designable"
+                         data-design-title="Feature Card"
+                         data-design-specs="Component: Card, Elevation: Level 1, Radius: 16px, Padding: 16px"
+                         data-design-description="Material 3 card component displaying individual app features.">
+                        <div class="feature-icon designable"
+                             data-design-title="Feature Icon Container"
+                             data-design-specs="Container: Icon wrapper, Size: 48px, Background: Primary Container"
+                             data-design-description="Container for feature icons with primary container background.">
+                            <span class="material-icons designable"
+                                  data-design-title="Recommendations Icon"
+                                  data-design-specs="Icon: auto_awesome, Size: 24px, Color: On-Primary-Container"
+                                  data-design-description="Material icon representing personalized recommendations functionality.">auto_awesome</span>
+                        </div>
+                        <div class="feature-title designable"
+                             data-design-title="Feature Title"
+                             data-design-specs="Typography: Title Small, Weight: 500, Color: On-Surface"
+                             data-design-description="Feature card title using Title Small typography.">Smart Recommendations</div>
+                        <div class="feature-desc designable"
+                             data-design-title="Feature Description"
+                             data-design-specs="Typography: Body Small, Weight: 400, Color: On-Surface-Variant"
+                             data-design-description="Feature card description using Body Small typography.">AI-powered personalized health suggestions</div>
+                    </div>
+                    <div class="feature-card designable"
+                         data-design-title="Feature Card"
+                         data-design-specs="Component: Card, Elevation: Level 1, Radius: 16px, Padding: 16px"
+                         data-design-description="Material 3 card component displaying individual app features.">
+                        <div class="feature-icon designable"
+                             data-design-title="Feature Icon Container"
+                             data-design-specs="Container: Icon wrapper, Size: 48px, Background: Primary Container"
+                             data-design-description="Container for feature icons with primary container background.">
+                            <span class="material-icons designable"
+                                  data-design-title="Assistant Icon"
+                                  data-design-specs="Icon: support_agent, Size: 24px, Color: On-Primary-Container"
+                                  data-design-description="Material icon representing health assistant functionality.">support_agent</span>
+                        </div>
+                        <div class="feature-title designable"
+                             data-design-title="Feature Title"
+                             data-design-specs="Typography: Title Small, Weight: 500, Color: On-Surface"
+                             data-design-description="Feature card title using Title Small typography.">Health Assistant</div>
+                        <div class="feature-desc designable"
+                             data-design-title="Feature Description"
+                             data-design-specs="Typography: Body Small, Weight: 400, Color: On-Surface-Variant"
+                             data-design-description="Feature card description using Body Small typography.">24/7 AI health guidance and support</div>
+                    </div>
+                    <div class="feature-card designable"
+                         data-design-title="Feature Card"
+                         data-design-specs="Component: Card, Elevation: Level 1, Radius: 16px, Padding: 16px"
+                         data-design-description="Material 3 card component displaying individual app features.">
+                        <div class="feature-icon designable"
+                             data-design-title="Feature Icon Container"
+                             data-design-specs="Container: Icon wrapper, Size: 48px, Background: Primary Container"
+                             data-design-description="Container for feature icons with primary container background.">
+                            <span class="material-icons designable"
+                                  data-design-title="Analytics Icon"
+                                  data-design-specs="Icon: insights, Size: 24px, Color: On-Primary-Container"
+                                  data-design-description="Material icon representing progress analytics functionality.">insights</span>
+                        </div>
+                        <div class="feature-title designable"
+                             data-design-title="Feature Title"
+                             data-design-specs="Typography: Title Small, Weight: 500, Color: On-Surface"
+                             data-design-description="Feature card title using Title Small typography.">AI Analytics</div>
+                        <div class="feature-desc designable"
+                             data-design-title="Feature Description"
+                             data-design-specs="Typography: Body Small, Weight: 400, Color: On-Surface-Variant"
+                             data-design-description="Feature card description using Body Small typography.">Advanced health insights and predictions</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="btn btn-primary designable" onclick="showScreen('login')"
+                    data-design-title="Primary Button"
+                    data-design-specs="Component: Filled Button, Height: 56px, Radius: 28px, Color: Primary"
+                    data-design-description="Material 3 filled button component with primary color and forward arrow icon.">
+                Get Started
+                <span class="material-icons designable"
+                      data-design-title="Button Icon"
+                      data-design-specs="Icon: arrow_forward, Size: 20px, Color: On-Primary"
+                      data-design-description="Material icon indicating forward navigation.">arrow_forward</span>
+            </button>
+        </div>
+
+        <!-- Login Screen -->
+        <div class="screen" id="login">
+            <button class="back-btn designable" onclick="showScreen('welcome')"
+                    data-design-title="Back Button"
+                    data-design-specs="Component: Icon Button, Size: 48px, Color: On-Surface"
+                    data-design-description="Material 3 icon button for navigation back to previous screen.">
+                <span class="material-icons designable"
+                      data-design-title="Back Icon"
+                      data-design-specs="Icon: arrow_back, Size: 24px, Color: On-Surface"
+                      data-design-description="Material icon for backward navigation.">arrow_back</span>
+            </button>
+            
+            <div class="form-content">
+                <div class="form-header designable"
+                     data-design-title="Form Header"
+                     data-design-specs="Container: Header section, Spacing: 24px bottom margin"
+                     data-design-description="Header section containing form title and subtitle.">
+                    <h2 class="form-title designable"
+                        data-design-title="Form Title"
+                        data-design-specs="Typography: Headline Small, Weight: 400, Color: On-Surface"
+                        data-design-description="Login form title using Headline Small typography.">Welcome Back</h2>
+                    <p class="form-subtitle designable"
+                       data-design-title="Form Subtitle"
+                       data-design-specs="Typography: Body Medium, Weight: 400, Color: On-Surface-Variant"
+                       data-design-description="Login form subtitle providing context and encouragement.">Sign in to continue your health journey</p>
+                </div>
+
+                <form id="loginForm" class="designable"
+                      data-design-title="Login Form"
+                      data-design-specs="Component: Form container, Layout: Vertical stack, Gap: 16px"
+                      data-design-description="Main login form containing email and password fields.">
+                    <div class="text-field designable"
+                         data-design-title="Email Text Field"
+                         data-design-specs="Component: Outlined Text Field, Height: 56px, Radius: 4px"
+                         data-design-description="Material 3 outlined text field for email input with floating label.">
+                        <input type="email" id="loginEmail" placeholder=" " required class="designable"
+                               data-design-title="Email Input"
+                               data-design-specs="Input: Email type, Validation: Required, Typography: Body Large"
+                               data-design-description="Email input field with built-in validation.">
+                        <label for="loginEmail" class="designable"
+                               data-design-title="Email Label"
+                               data-design-specs="Label: Floating, Typography: Body Small, Color: On-Surface-Variant"
+                               data-design-description="Floating label that animates when field is focused or filled.">Email Address</label>
+                    </div>
+                    
+                    <div class="text-field designable"
+                         data-design-title="Password Text Field"
+                         data-design-specs="Component: Outlined Text Field, Height: 56px, Radius: 4px"
+                         data-design-description="Material 3 outlined text field for password input with floating label.">
+                        <input type="password" id="loginPassword" placeholder=" " required class="designable"
+                               data-design-title="Password Input"
+                               data-design-specs="Input: Password type, Validation: Required, Typography: Body Large"
+                               data-design-description="Password input field with hidden text display.">
+                        <label for="loginPassword" class="designable"
+                               data-design-title="Password Label"
+                               data-design-specs="Label: Floating, Typography: Body Small, Color: On-Surface-Variant"
+                               data-design-description="Floating label that animates when field is focused or filled.">Password</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary designable"
+                            data-design-title="Sign In Button"
+                            data-design-specs="Component: Filled Button, Height: 56px, Radius: 28px, Color: Primary"
+                            data-design-description="Primary action button for form submission with loading state.">
+                        <span class="btn-text designable"
+                              data-design-title="Button Text"
+                              data-design-specs="Typography: Label Large, Weight: 500, Color: On-Primary"
+                              data-design-description="Button text using Label Large typography.">Sign In</span>
+                        <span class="loading designable" style="display: none;"
+                              data-design-title="Loading Indicator"
+                              data-design-specs="Component: Circular Progress, Size: 20px, Color: On-Primary"
+                              data-design-description="Loading spinner shown during form submission."></span>
+                    </button>
+                </form>
+
+                <div class="divider designable"
+                     data-design-title="Divider"
+                     data-design-specs="Component: Text divider, Color: Outline, Typography: Body Small"
+                     data-design-description="Visual separator with text indicating alternative sign-in options.">
+                    <span class="designable"
+                          data-design-title="Divider Text"
+                          data-design-specs="Typography: Body Small, Weight: 400, Color: On-Surface-Variant"
+                          data-design-description="Text content for the divider element.">or continue with</span>
+                </div>
+
+                <div class="sso-buttons designable"
+                     data-design-title="SSO Buttons Container"
+                     data-design-specs="Container: Button group, Layout: Vertical stack, Gap: 12px"
+                     data-design-description="Container for social sign-on buttons.">
+                    <button class="btn btn-google designable" onclick="signInWithGoogle()"
+                            data-design-title="Google Sign-In Button"
+                            data-design-specs="Component: Outlined Button, Height: 56px, Color: Surface, Border: Outline"
+                            data-design-description="Google SSO button with brand colors and logo.">
+                        <svg class="google-icon designable" viewBox="0 0 24 24"
+                             data-design-title="Google Logo"
+                             data-design-specs="Icon: Google logo, Size: 20px, Colors: Brand colors"
+                             data-design-description="Official Google logo with brand-compliant colors.">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Continue with Google
+                    </button>
+                    
+                    <button class="btn btn-apple designable" onclick="signInWithApple()"
+                            data-design-title="Apple Sign-In Button"
+                            data-design-specs="Component: Filled Button, Height: 56px, Color: Black, Text: White"
+                            data-design-description="Apple SSO button with brand colors and logo.">
+                        <svg class="apple-icon designable" viewBox="0 0 24 24" fill="currentColor"
+                             data-design-title="Apple Logo"
+                             data-design-specs="Icon: Apple logo, Size: 20px, Color: White"
+                             data-design-description="Official Apple logo in white color.">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        Continue with Apple
+                    </button>
+                </div>
+
+                <a href="#" class="nav-link designable" onclick="showScreen('forgot')"
+                   data-design-title="Forgot Password Link"
+                   data-design-specs="Component: Text Button, Typography: Body Medium, Color: Primary"
+                   data-design-description="Navigation link to forgot password screen.">Forgot Password?</a>
+                <a href="#" class="nav-link designable" onclick="showScreen('signup')"
+                   data-design-title="Sign Up Link"
+                   data-design-specs="Component: Text Button, Typography: Body Medium, Color: Primary"
+                   data-design-description="Navigation link to sign up screen for new users.">Don't have an account? Sign Up</a>
+            </div>
+        </div>
+
+        <!-- Sign Up Screen -->
+        <div class="screen" id="signup">
+            <button class="back-btn designable" onclick="showScreen('login')"
+                data-design-title="Back Navigation Button"
+                data-design-specs="Size: 48x48dp • Icon: arrow_back • Color: on-surface-variant"
+                data-design-description="Material 3 icon button for navigation. Uses state layers for touch feedback and follows accessibility guidelines.">
+                <span class="material-icons">arrow_back</span>
+            </button>
+            
+            <div class="form-content">
+                <div class="form-header designable"
+                    data-design-title="Form Header Section"
+                    data-design-specs="Spacing: 32dp top margin • Typography: Display Small + Body Large"
+                    data-design-description="Header section with title and subtitle following Material 3 typography scale and spacing guidelines.">
+                    <h2 class="form-title designable"
+                        data-design-title="Sign Up Title"
+                        data-design-specs="Typography: Display Small (36sp) • Color: on-surface • Weight: 400"
+                        data-design-description="Primary heading using Material 3 Display Small typography scale for clear hierarchy.">Create Account</h2>
+                    <p class="form-subtitle designable"
+                        data-design-title="Sign Up Subtitle"
+                        data-design-specs="Typography: Body Large (16sp) • Color: on-surface-variant • Line height: 24sp"
+                        data-design-description="Supporting text that provides context and encouragement for the sign-up process.">Join Medly and start your AI-powered health journey</p>
+                </div>
+
+                <form id="signupForm" class="designable"
+                    data-design-title="Sign Up Form"
+                    data-design-specs="Layout: Vertical stack • Spacing: 16dp between fields • Max width: 400dp"
+                    data-design-description="Form container with proper spacing and layout for optimal user experience and accessibility.">
+                    <div class="text-field designable"
+                        data-design-title="Full Name Text Field"
+                        data-design-specs="Height: 56dp • Border radius: 4dp • State: Outlined variant"
+                        data-design-description="Material 3 outlined text field with floating label animation and focus states.">
+                        <input type="text" id="signupName" placeholder=" " required>
+                        <label for="signupName" class="designable"
+                            data-design-title="Full Name Label"
+                            data-design-specs="Typography: Body Large • Animation: Float on focus • Color: on-surface-variant"
+                            data-design-description="Floating label that animates smoothly and provides clear field identification.">Full Name</label>
+                    </div>
+                    
+                    <div class="text-field designable"
+                        data-design-title="Email Text Field"
+                        data-design-specs="Height: 56dp • Input type: email • Validation: Real-time"
+                        data-design-description="Email input field with built-in validation and appropriate keyboard type for mobile devices.">
+                        <input type="email" id="signupEmail" placeholder=" " required>
+                        <label for="signupEmail" class="designable"
+                            data-design-title="Email Label"
+                            data-design-specs="Typography: Body Large • State: Floating • Color: on-surface-variant"
+                            data-design-description="Floating label for email field with proper semantic association.">Email Address</label>
+                    </div>
+                    
+                    <div class="text-field designable"
+                        data-design-title="Password Text Field"
+                        data-design-specs="Height: 56dp • Input type: password • Security: Masked input"
+                        data-design-description="Secure password input field with proper masking and validation feedback.">
+                        <input type="password" id="signupPassword" placeholder=" " required>
+                        <label for="signupPassword" class="designable"
+                            data-design-title="Password Label"
+                            data-design-specs="Typography: Body Large • State: Floating • Color: on-surface-variant"
+                            data-design-description="Floating label for password field with clear identification.">Password</label>
+                    </div>
+                    
+                    <div class="text-field designable"
+                        data-design-title="Confirm Password Text Field"
+                        data-design-specs="Height: 56dp • Validation: Real-time matching • Error states: Red border"
+                        data-design-description="Password confirmation field with real-time validation and visual feedback for matching.">
+                        <input type="password" id="confirmPassword" placeholder=" " required>
+                        <label for="confirmPassword" class="designable"
+                            data-design-title="Confirm Password Label"
+                            data-design-specs="Typography: Body Large • State: Floating • Color: on-surface-variant"
+                            data-design-description="Floating label for password confirmation with clear purpose indication.">Confirm Password</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary designable"
+                        data-design-title="Create Account Button"
+                        data-design-specs="Height: 40dp • Style: Filled • Color: primary • Elevation: Level 0"
+                        data-design-description="Primary action button using Material 3 filled button style with loading states and proper touch targets.">
+                        <span class="btn-text">Create Account</span>
+                        <span class="loading" style="display: none;"></span>
+                    </button>
+                </form>
+
+                <div class="divider designable"
+                    data-design-title="Content Divider"
+                    data-design-specs="Height: 1dp • Color: outline-variant • Text: Body Medium"
+                    data-design-description="Visual separator with text overlay to distinguish between different sign-up methods.">
+                    <span>or sign up with</span>
+                </div>
+
+                <div class="sso-buttons designable"
+                    data-design-title="SSO Button Group"
+                    data-design-specs="Layout: Vertical stack • Spacing: 12dp • Button height: 40dp"
+                    data-design-description="Social sign-on buttons group with consistent styling and proper brand representation.">
+                    <button class="btn btn-google designable" onclick="signUpWithGoogle()"
+                        data-design-title="Google Sign Up Button"
+                        data-design-specs="Style: Outlined • Brand colors: Google palette • Icon: 18x18dp"
+                        data-design-description="Google SSO button following brand guidelines with proper icon and color usage.">
+                        <svg class="google-icon" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                        </svg>
+                        Sign up with Google
+                    </button>
+                    
+                    <button class="btn btn-apple designable" onclick="signUpWithApple()"
+                        data-design-title="Apple Sign Up Button"
+                        data-design-specs="Style: Outlined • Brand colors: Apple palette • Icon: 18x18dp"
+                        data-design-description="Apple SSO button following brand guidelines with proper icon and color usage.">
+                        <svg class="apple-icon" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                        </svg>
+                        Sign up with Apple
+                    </button>
+                </div>
+
+                <a href="#" class="nav-link designable" onclick="showScreen('login')"
+                    data-design-title="Sign In Navigation Link"
+                    data-design-specs="Typography: Label Large • Color: primary • State: Interactive"
+                    data-design-description="Navigation link to sign in screen for existing users with proper interactive states.">Already have an account? Sign In</a>
+            </div>
+        </div>
+
+        <!-- Forgot Password Screen -->
+        <div class="screen" id="forgot">
+            <button class="back-btn designable" onclick="showScreen('login')"
+                data-design-title="Back Navigation Button"
+                data-design-specs="Size: 48x48dp • Icon: arrow_back • Color: on-surface-variant"
+                data-design-description="Material 3 icon button for navigation. Uses state layers for touch feedback and follows accessibility guidelines.">
+                <span class="material-icons">arrow_back</span>
+            </button>
+            
+            <div class="form-content">
+                <div class="form-header designable"
+                    data-design-title="Password Reset Header"
+                    data-design-specs="Spacing: 32dp top margin • Typography: Display Small + Body Large"
+                    data-design-description="Header section explaining the password reset process with clear instructions.">
+                    <h2 class="form-title designable"
+                        data-design-title="Reset Password Title"
+                        data-design-specs="Typography: Display Small (36sp) • Color: on-surface • Weight: 400"
+                        data-design-description="Primary heading using Material 3 Display Small typography scale for clear hierarchy.">Reset Password</h2>
+                    <p class="form-subtitle designable"
+                        data-design-title="Reset Instructions"
+                        data-design-specs="Typography: Body Large (16sp) • Color: on-surface-variant • Line height: 24sp"
+                        data-design-description="Instructional text explaining the password reset process to guide user expectations.">Enter your email address and we'll send you a link to reset your password</p>
+                </div>
+
+                <form id="forgotForm" class="designable"
+                    data-design-title="Password Reset Form"
+                    data-design-specs="Layout: Vertical stack • Spacing: 24dp • Max width: 400dp"
+                    data-design-description="Simple form for password reset with minimal fields to reduce friction.">
+                    <div class="text-field designable"
+                        data-design-title="Email Text Field"
+                        data-design-specs="Height: 56dp • Input type: email • Validation: Email format"
+                        data-design-description="Email input field for password reset with proper validation and keyboard type.">
+                        <input type="email" id="forgotEmail" placeholder=" " required>
+                        <label for="forgotEmail" class="designable"
+                            data-design-title="Email Label"
+                            data-design-specs="Typography: Body Large • State: Floating • Color: on-surface-variant"
+                            data-design-description="Floating label for email field with clear semantic association.">Email Address</label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary designable"
+                        data-design-title="Send Reset Link Button"
+                        data-design-specs="Height: 40dp • Style: Filled • Color: primary • Elevation: Level 0"
+                        data-design-description="Primary action button for sending password reset email with loading states.">
+                        <span class="btn-text">Send Reset Link</span>
+                        <span class="loading" style="display: none;"></span>
+                    </button>
+                </form>
+
+                <a href="#" class="nav-link designable" onclick="showScreen('login')"
+                    data-design-title="Back to Sign In Link"
+                    data-design-specs="Typography: Label Large • Color: primary • State: Interactive"
+                    data-design-description="Navigation link back to sign in screen with proper interactive states.">Back to Sign In</a>
+            </div>
+        </div>
+
+        <!-- Success Screen -->
+        <div class="screen" id="success">
+            <div class="form-content" style="text-align: center;">
+                <svg class="success-checkmark" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="45"/>
+                    <path d="M30 50 L45 65 L70 35"/>
+                </svg>
+                
+                <h2 class="form-title">Welcome to Medly!</h2>
+                <p class="form-subtitle">Your account has been created successfully. Let's start your health journey!</p>
+                
+                <button class="btn btn-primary" onclick="startApp()">
+                    Continue to App
+                    <span class="material-icons">arrow_forward</span>
+                </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pixel Navigation Bar -->
+             <div class="pixel-nav-bar">
+                 <div class="nav-indicator"></div>
+             </div>
+         </div>
+     </div>
+
+        <script>
+        let currentScreen = 'splash';
+        let previousScreen = null;
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Auto-transition from splash to welcome after 3 seconds
+            setTimeout(() => {
+                showScreen('welcome');
+            }, 3000);
+        });
+
+        function showScreen(screenId) {
+            const currentScreenEl = document.getElementById(currentScreen);
+            const newScreenEl = document.getElementById(screenId);
+            
+            if (currentScreenEl && newScreenEl) {
+                // Set previous screen for back navigation
+                previousScreen = currentScreen;
+                
+                // Remove active class from current screen
+                currentScreenEl.classList.remove('active');
+                currentScreenEl.classList.add('prev');
+                
+                // Add active class to new screen
+                newScreenEl.classList.add('active');
+                newScreenEl.classList.remove('prev');
+                
+                // Update current screen
+                currentScreen = screenId;
+                
+                // Reset form states
+                resetFormStates();
+            }
+        }
+
+        function resetFormStates() {
+            // Reset all loading states
+            document.querySelectorAll('.loading').forEach(loader => {
+                loader.style.display = 'none';
+            });
+            
+            document.querySelectorAll('.btn-text').forEach(text => {
+                text.style.display = 'inline';
+            });
+            
+            // Reset form inputs
+            document.querySelectorAll('form').forEach(form => {
+                form.reset();
+            });
+        }
+
+        // Form submission handlers
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleLogin();
+        });
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleSignup();
+        });
+
+        document.getElementById('forgotForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            handleForgotPassword();
+        });
+
+        function handleLogin() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (!email || !password) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            showLoading('loginForm');
+            
+            // Simulate API call
+            setTimeout(() => {
+                hideLoading('loginForm');
+                showScreen('success');
+            }, 2000);
+        }
+
+        function handleSignup() {
+            const name = document.getElementById('signupName').value;
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            if (password.length < 6) {
+                alert('Password must be at least 6 characters long');
+                return;
+            }
+            
+            showLoading('signupForm');
+            
+            // Simulate API call
+            setTimeout(() => {
+                hideLoading('signupForm');
+                showScreen('success');
+            }, 2000);
+        }
+
+        function handleForgotPassword() {
+            const email = document.getElementById('forgotEmail').value;
+            
+            if (!email) {
+                alert('Please enter your email address');
+                return;
+            }
+            
+            showLoading('forgotForm');
+            
+            // Simulate API call
+            setTimeout(() => {
+                hideLoading('forgotForm');
+                alert('Password reset link sent to your email!');
+                showScreen('login');
+            }, 2000);
+        }
+
+        function showLoading(formId) {
+            const form = document.getElementById(formId);
+            const btnText = form.querySelector('.btn-text');
+            const loading = form.querySelector('.loading');
+            
+            if (btnText && loading) {
+                btnText.style.display = 'none';
+                loading.style.display = 'inline-block';
+            }
+        }
+
+        function hideLoading(formId) {
+            const form = document.getElementById(formId);
+            const btnText = form.querySelector('.btn-text');
+            const loading = form.querySelector('.loading');
+            
+            if (btnText && loading) {
+                btnText.style.display = 'inline';
+                loading.style.display = 'none';
+            }
+        }
+
+        // SSO Functions
+        function signInWithGoogle() {
+            alert('Google Sign-In integration would be implemented here using Google OAuth 2.0');
+            // In a real app, you would integrate with Google Sign-In SDK
+            // Example: gapi.auth2.getAuthInstance().signIn()
+        }
+
+        function signInWithApple() {
+            alert('Apple Sign-In integration would be implemented here using Apple ID');
+            // In a real app, you would integrate with Apple Sign-In SDK
+            // Example: AppleID.auth.signIn()
+        }
+
+        function signUpWithGoogle() {
+            alert('Google Sign-Up integration would be implemented here');
+            // Same as sign-in but with additional user data collection
+        }
+
+        function signUpWithApple() {
+            alert('Apple Sign-Up integration would be implemented here');
+            // Same as sign-in but with additional user data collection
+        }
+
+        function startApp() {
+            alert('Redirecting to main app dashboard...');
+            // In a real app, this would redirect to the main application
+            // window.location.href = '/dashboard';
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && previousScreen) {
+                showScreen(previousScreen);
+            }
+        });
+
+        // Touch gestures handled by enhanced scroll system below
+
+        // Form validation enhancements
+        document.querySelectorAll('input[type="email"]').forEach(input => {
+            input.addEventListener('blur', function() {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (this.value && !emailRegex.test(this.value)) {
+                    this.style.borderColor = 'var(--md-sys-color-error)';
+                } else {
+                    this.style.borderColor = 'var(--md-sys-color-outline)';
+                }
+            });
+        });
+
+        document.querySelectorAll('input[type="password"]').forEach(input => {
+            input.addEventListener('input', function() {
+                if (this.id === 'confirmPassword') {
+                    const password = document.getElementById('signupPassword').value;
+                    if (this.value && this.value !== password) {
+                        this.style.borderColor = 'var(--md-sys-color-error)';
+                    } else {
+                        this.style.borderColor = 'var(--md-sys-color-outline)';
+                    }
+                }
+            });
+        });
+
+        // Auto-focus first input when screen changes
+        function focusFirstInput() {
+            setTimeout(() => {
+                const activeScreen = document.querySelector('.screen.active');
+                const firstInput = activeScreen?.querySelector('input');
+                if (firstInput) {
+                    firstInput.focus();
+                }
+            }, 400);
+        }
+
+        // Enhanced screen transitions with focus management
+        // Note: showScreen function will be enhanced by scroll system below
+
+        // Developer Tools Functionality
+        let designModeActive = false;
+        let tooltip = null;
+
+        function toggleDesignMode() {
+            designModeActive = !designModeActive;
+            const body = document.body;
+            const toggleBtn = document.querySelector('.design-toggle');
+            const designPanel = document.querySelector('.design-panel');
+            
+            if (designModeActive) {
+                body.classList.add('design-mode');
+                toggleBtn.innerHTML = '<span class="material-icons" style="margin-right: 8px; font-size: 18px;">close</span>Exit Dev Tools';
+                designPanel.classList.add('open');
+                initializeDesignTooltips();
+            } else {
+                body.classList.remove('design-mode');
+                toggleBtn.innerHTML = '<span class="material-icons" style="margin-right: 8px; font-size: 18px;">code</span>Dev Tools';
+                designPanel.classList.remove('open');
+                removeDesignTooltips();
+            }
+        }
+
+        function initializeDesignTooltips() {
+            const designableElements = document.querySelectorAll('.designable');
+            
+            designableElements.forEach(element => {
+                // Desktop hover events
+                element.addEventListener('mouseenter', showDesignTooltip);
+                element.addEventListener('mouseleave', hideDesignTooltip);
+                
+                // Mobile touch events
+                element.addEventListener('touchstart', handleDesignTouch, { passive: true });
+                element.addEventListener('click', handleDesignClick);
+            });
+        }
+
+        function removeDesignTooltips() {
+            const designableElements = document.querySelectorAll('.designable');
+            
+            designableElements.forEach(element => {
+                // Remove desktop hover events
+                element.removeEventListener('mouseenter', showDesignTooltip);
+                element.removeEventListener('mouseleave', hideDesignTooltip);
+                
+                // Remove mobile touch events
+                element.removeEventListener('touchstart', handleDesignTouch);
+                element.removeEventListener('click', handleDesignClick);
+            });
+            
+            hideDesignTooltip();
+        }
+
+        // Touch event handlers for mobile devices
+        let touchTimeout;
+        let currentTouchedElement = null;
+
+        function handleDesignTouch(event) {
+            // Clear any existing timeout
+            if (touchTimeout) {
+                clearTimeout(touchTimeout);
+            }
+            
+            // Store the touched element
+            currentTouchedElement = event.currentTarget;
+            
+            // Show tooltip after a short delay to distinguish from scrolling
+            touchTimeout = setTimeout(() => {
+                if (currentTouchedElement === event.currentTarget) {
+                    showDesignTooltip.call(event.currentTarget, event);
+                }
+            }, 200);
+        }
+
+        function handleDesignClick(event) {
+            // If we're in design mode and this is a designable element
+            if (designModeActive && event.currentTarget.classList.contains('designable')) {
+                // Prevent default click behavior
+                event.preventDefault();
+                event.stopPropagation();
+                
+                // Show the tooltip and attribute panel
+                showDesignTooltip.call(event.currentTarget, event);
+                
+                // Auto-hide after 5 seconds on mobile
+                setTimeout(() => {
+                    hideDesignTooltip();
+                }, 5000);
+            }
+        }
+
+        // Color detection and conversion functions
+        function rgbToHex(rgb) {
+            if (!rgb || rgb === 'transparent' || rgb === 'rgba(0, 0, 0, 0)') return null;
+            
+            // Handle rgb() and rgba() formats
+            const match = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/);
+            if (!match) return null;
+            
+            const r = parseInt(match[1]);
+            const g = parseInt(match[2]);
+            const b = parseInt(match[3]);
+            
+            return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+        }
+        
+        function extractElementColors(element) {
+            const computedStyles = window.getComputedStyle(element);
+            const colors = [];
+            
+            // Background color
+            const bgColor = computedStyles.backgroundColor;
+            const bgHex = rgbToHex(bgColor);
+            if (bgHex) {
+                colors.push({
+                    type: 'Background',
+                    rgb: bgColor,
+                    hex: bgHex
+                });
+            }
+            
+            // Text color
+            const textColor = computedStyles.color;
+            const textHex = rgbToHex(textColor);
+            if (textHex) {
+                colors.push({
+                    type: 'Text',
+                    rgb: textColor,
+                    hex: textHex
+                });
+            }
+            
+            // Border color
+            const borderColor = computedStyles.borderColor;
+            const borderHex = rgbToHex(borderColor);
+            if (borderHex && borderColor !== textColor) {
+                colors.push({
+                    type: 'Border',
+                    rgb: borderColor,
+                    hex: borderHex
+                });
+            }
+            
+            // Box shadow color (extract from box-shadow if present)
+            const boxShadow = computedStyles.boxShadow;
+            if (boxShadow && boxShadow !== 'none') {
+                const shadowMatch = boxShadow.match(/rgba?\([^)]+\)/);
+                if (shadowMatch) {
+                    const shadowHex = rgbToHex(shadowMatch[0]);
+                    if (shadowHex) {
+                        colors.push({
+                            type: 'Shadow',
+                            rgb: shadowMatch[0],
+                            hex: shadowHex
+                        });
+                    }
+                }
+            }
+            
+            return colors;
+        }
+        
+        function createColorSwatch(color) {
+            return `
+                <div class="tooltip-color-inline">
+                    <div class="color-swatch" style="background-color: ${color.hex};" title="${color.hex}"></div>
+                    <span class="color-name">${color.type}</span>
+                    <span class="color-value" onclick="copyToClipboard('${color.hex}')" style="cursor: pointer;">${color.hex}</span>
+                </div>
+            `;
+        }
+
+        function showDesignTooltip(event) {
+            if (!designModeActive) return;
+            
+            const element = event.target;
+            const title = element.getAttribute('data-design-title');
+            const specs = element.getAttribute('data-design-specs');
+            const description = element.getAttribute('data-design-description');
+            
+            if (!title) return;
+            
+            // Create tooltip if it doesn't exist
+            if (!tooltip) {
+                tooltip = document.createElement('div');
+                tooltip.className = 'design-tooltip';
+                document.body.appendChild(tooltip);
+            }
+            
+            // Extract colors from the element
+            const elementColors = extractElementColors(element);
+            
+            // Create color swatches HTML
+            const colorSwatchesHTML = elementColors.length > 0 
+                ? `<div class="tooltip-colors">${elementColors.map(createColorSwatch).join('')}</div>`
+                : '';
+            
+            // Set tooltip content
+            tooltip.innerHTML = `
+                <div class="tooltip-title">${title}</div>
+                <div class="tooltip-specs">${specs}</div>
+                <div class="tooltip-description">${description}</div>
+                ${colorSwatchesHTML}
+            `;
+            
+
+            
+            // Position tooltip
+            const rect = element.getBoundingClientRect();
+            const tooltipRect = tooltip.getBoundingClientRect();
+            
+            let left = rect.left + (rect.width / 2) - (tooltipRect.width / 2);
+            let top = rect.top - tooltipRect.height - 10;
+            
+            // Adjust if tooltip goes off screen
+            if (left < 10) left = 10;
+            if (left + tooltipRect.width > window.innerWidth - 10) {
+                left = window.innerWidth - tooltipRect.width - 10;
+            }
+            if (top < 10) {
+                top = rect.bottom + 10;
+            }
+            
+            tooltip.style.left = left + 'px';
+            tooltip.style.top = top + 'px';
+            tooltip.style.opacity = '1';
+            tooltip.style.visibility = 'visible';
+            
+            // Highlight the element
+            element.classList.add('design-highlight');
+        }
+
+        function hideDesignTooltip() {
+            if (tooltip) {
+                tooltip.style.opacity = '0';
+                tooltip.style.visibility = 'hidden';
+            }
+            
+            // Remove highlight from all elements
+            document.querySelectorAll('.design-highlight').forEach(el => {
+                el.classList.remove('design-highlight');
+            });
+            
+
+        }
+
+
+        
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                // Show copy feedback
+                const feedback = document.createElement('div');
+                feedback.textContent = 'Copied!';
+                feedback.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    background: #4CAF50;
+                    color: white;
+                    padding: 8px 16px;
+                    border-radius: 4px;
+                    z-index: 10000;
+                    font-size: 14px;
+                `;
+                document.body.appendChild(feedback);
+                
+                setTimeout(() => {
+                    document.body.removeChild(feedback);
+                }, 1000);
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+
+        function showDesignPanel(section) {
+            const panels = document.querySelectorAll('.design-section');
+            panels.forEach(panel => panel.style.display = 'none');
+            
+            const targetPanel = document.getElementById(section);
+            if (targetPanel) {
+                targetPanel.style.display = 'block';
+            }
+        }
+
+        // Enhanced keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && previousScreen) {
+                showScreen(previousScreen);
+            }
+            
+            // Toggle developer tools with Cmd/Ctrl + D
+            if (e.key === 'd' || e.key === 'D') {
+                if (e.ctrlKey || e.metaKey) {
+                    e.preventDefault();
+                    toggleDesignMode();
+                }
+            }
+        });
+
+        // Scroll Animation and Gesture System
+        let scrollIndicator = null;
+        let gestureOverlay = null;
+        let scrollTimeout = null;
+
+        // Enhanced screen transition with scroll animations
+        function showScreenWithAnimation(screenId, animationType = 'slide') {
+            const currentScreen = document.querySelector('.screen.active');
+            const targetScreen = document.getElementById(screenId);
+            
+            if (!targetScreen || targetScreen === currentScreen) return;
+            
+            // Show gesture indicator
+            showGestureIndicator(animationType);
+            
+            // Apply exit animation to current screen
+            if (currentScreen) {
+                switch(animationType) {
+                    case 'scroll-up':
+                        currentScreen.classList.add('scroll-up');
+                        break;
+                    case 'scroll-down':
+                        currentScreen.classList.add('scroll-down');
+                        break;
+                    case 'slide-left':
+                        currentScreen.classList.add('slide-left');
+                        break;
+                    case 'slide-right':
+                        currentScreen.classList.add('slide-right');
+                        break;
+                }
+                
+                setTimeout(() => {
+                    currentScreen.classList.remove('active');
+                    currentScreen.classList.remove('scroll-up', 'scroll-down', 'slide-left', 'slide-right');
+                }, 300);
+            }
+            
+            // Apply entrance animation to target screen
+            setTimeout(() => {
+                targetScreen.classList.add('active');
+                
+                switch(animationType) {
+                    case 'scroll-up':
+                        targetScreen.classList.add('enter-from-bottom');
+                        break;
+                    case 'scroll-down':
+                        targetScreen.classList.add('enter-from-top');
+                        break;
+                    default:
+                        targetScreen.classList.add('enter-from-bottom');
+                }
+                
+                // Trigger scroll animations for content
+                setTimeout(() => {
+                    animateScrollContent(targetScreen);
+                    targetScreen.classList.remove('enter-from-top', 'enter-from-bottom');
+                    updateScreenProgress(screenId);
+                }, 100);
+                
+            }, 300);
+            
+            previousScreen = currentScreen ? currentScreen.id : null;
+        }
+
+        // Animate content elements on screen enter
+        function animateScrollContent(screen) {
+            const animatedElements = screen.querySelectorAll('.scroll-animate');
+            animatedElements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.classList.add('in-view');
+                }, index * 100);
+            });
+        }
+
+        // Show gesture indicator
+        function showGestureIndicator(type) {
+            if (!gestureOverlay) return;
+            
+            const indicator = document.createElement('div');
+            indicator.className = 'gesture-indicator';
+            
+            // Position based on gesture type
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            switch(type) {
+                case 'scroll-up':
+                    indicator.style.left = centerX - 20 + 'px';
+                    indicator.style.top = centerY + 50 + 'px';
+                    break;
+                case 'scroll-down':
+                    indicator.style.left = centerX - 20 + 'px';
+                    indicator.style.top = centerY - 50 + 'px';
+                    break;
+                case 'slide-left':
+                    indicator.style.left = centerX + 50 + 'px';
+                    indicator.style.top = centerY - 20 + 'px';
+                    break;
+                case 'slide-right':
+                    indicator.style.left = centerX - 50 + 'px';
+                    indicator.style.top = centerY - 20 + 'px';
+                    break;
+            }
+            
+            gestureOverlay.classList.add('active');
+            gestureOverlay.appendChild(indicator);
+            
+            setTimeout(() => {
+                gestureOverlay.classList.remove('active');
+                if (indicator.parentNode) {
+                    indicator.parentNode.removeChild(indicator);
+                }
+            }, 600);
+        }
+
+        // Enhanced scroll indicator with progress animations
+        function updateScrollIndicator() {
+            if (!scrollIndicator) return;
+            
+            const activeScreen = document.querySelector('.screen.active');
+            if (!activeScreen) return;
+            
+            const scrollTop = activeScreen.scrollTop;
+            const scrollHeight = activeScreen.scrollHeight;
+            const clientHeight = activeScreen.clientHeight;
+            
+            if (scrollHeight > clientHeight) {
+                scrollIndicator.classList.add('visible');
+                
+                // Calculate scroll progress (0 to 1)
+                const scrollPercent = Math.min(scrollTop / (scrollHeight - clientHeight), 1);
+                
+                // Update progress bar
+                const progressBar = scrollIndicator.querySelector('.progress-bar');
+                if (progressBar) {
+                    progressBar.style.transform = `scaleY(${scrollPercent})`;
+                }
+                
+                // Update scroll position indicator
+                const thumb = scrollIndicator.querySelector('.scroll-thumb');
+                if (thumb) {
+                    const indicatorHeight = scrollIndicator.offsetHeight - 40; // Account for padding
+                    const thumbPosition = scrollPercent * indicatorHeight;
+                    thumb.style.transform = `translateY(${thumbPosition}px)`;
+                }
+                
+                // Add scroll direction indicator
+                const direction = scrollIndicator.dataset.lastScrollTop ? 
+                    (scrollTop > parseInt(scrollIndicator.dataset.lastScrollTop) ? 'down' : 'up') : 'none';
+                scrollIndicator.dataset.lastScrollTop = scrollTop;
+                scrollIndicator.dataset.scrollDirection = direction;
+                
+                // Show percentage for better UX
+                const percentageDisplay = scrollIndicator.querySelector('.scroll-percentage');
+                if (percentageDisplay) {
+                    percentageDisplay.textContent = Math.round(scrollPercent * 100) + '%';
+                }
+                
+            } else {
+                scrollIndicator.classList.remove('visible');
+            }
+        }
+
+        // Enhanced progress tracking for screen navigation
+        function updateScreenProgress() {
+            const screens = ['splash', 'welcome', 'login', 'signup', 'forgot-password'];
+            const currentScreen = document.querySelector('.screen.active');
+            const currentIndex = screens.indexOf(currentScreen?.id || '');
+            
+            if (currentIndex >= 0) {
+                const progress = ((currentIndex + 1) / screens.length) * 100;
+                
+                // Update any progress indicators
+                const progressIndicators = document.querySelectorAll('.screen-progress');
+                progressIndicators.forEach(indicator => {
+                    indicator.style.setProperty('--progress', progress + '%');
+                    indicator.setAttribute('data-current-screen', currentIndex + 1);
+                    indicator.setAttribute('data-total-screens', screens.length);
+                });
+            }
+        }
+
+        // Enhanced navigation with scroll animations
+        function navigateWithScroll(direction) {
+            const screens = ['splash', 'welcome', 'login', 'signup', 'forgot-password'];
+            const currentScreen = document.querySelector('.screen.active');
+            const currentIndex = screens.indexOf(currentScreen.id);
+            
+            let targetIndex;
+            let animationType;
+            
+            if (direction === 'next' && currentIndex < screens.length - 1) {
+                targetIndex = currentIndex + 1;
+                animationType = 'scroll-up';
+            } else if (direction === 'prev' && currentIndex > 0) {
+                targetIndex = currentIndex - 1;
+                animationType = 'scroll-down';
+            } else {
+                return;
+            }
+            
+            showScreenWithAnimation(screens[targetIndex], animationType);
+        }
+
+        // Touch gesture handling
+        // Enhanced touch gesture variables
+        let touchStartY = 0;
+        let touchStartX = 0;
+        let touchEndY = 0;
+        let touchEndX = 0;
+        let touchStartTime = 0;
+        let touchMoveY = 0;
+        let isScrolling = false;
+        let gestureInProgress = false;
+
+        function handleTouchStart(e) {
+            touchStartY = e.touches[0].clientY;
+            touchStartX = e.touches[0].clientX;
+            touchStartTime = Date.now();
+            touchMoveY = touchStartY;
+            isScrolling = false;
+            gestureInProgress = false;
+            
+            // Show gesture overlay for visual feedback
+            if (gestureOverlay) {
+                gestureOverlay.style.opacity = '0.1';
+            }
+        }
+
+        function handleTouchMove(e) {
+            if (!gestureInProgress) {
+                touchMoveY = e.touches[0].clientY;
+                const deltaY = Math.abs(touchStartY - touchMoveY);
+                
+                // Detect if user is scrolling vs swiping
+                if (deltaY > 10) {
+                    isScrolling = true;
+                    
+                    // Visual feedback for scroll direction
+                    const direction = touchStartY > touchMoveY ? 'up' : 'down';
+                    showGestureIndicator(direction);
+                }
+            }
+        }
+
+        function handleTouchEnd(e) {
+            touchEndY = e.changedTouches[0].clientY;
+            touchEndX = e.changedTouches[0].clientX;
+            
+            const deltaY = touchStartY - touchEndY;
+            const deltaX = touchStartX - touchEndX;
+            const touchDuration = Date.now() - touchStartTime;
+            const minSwipeDistance = 50;
+            const maxSwipeTime = 500; // ms
+            
+            // Hide gesture overlay
+            if (gestureOverlay) {
+                gestureOverlay.style.opacity = '0';
+            }
+            
+            // Only process swipes if they're fast enough and long enough
+            if (touchDuration < maxSwipeTime && !gestureInProgress) {
+                // Vertical swipes for screen navigation
+                if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > minSwipeDistance) {
+                    gestureInProgress = true;
+                    
+                    // Haptic feedback simulation (visual pulse)
+                    simulateHapticFeedback();
+                    
+                    if (deltaY > 0) {
+                        // Swipe up - next screen or scroll up
+                        const activeScreen = document.querySelector('.screen.active');
+                        if (activeScreen && activeScreen.scrollTop === 0) {
+                            navigateWithScroll('next');
+                        } else {
+                            // Smooth scroll up within current screen
+                            activeScreen?.scrollBy({ top: -200, behavior: 'smooth' });
+                        }
+                    } else {
+                        // Swipe down - previous screen or scroll down
+                        const activeScreen = document.querySelector('.screen.active');
+                        const isAtBottom = activeScreen && 
+                            activeScreen.scrollTop + activeScreen.clientHeight >= activeScreen.scrollHeight - 10;
+                        
+                        if (isAtBottom) {
+                            navigateWithScroll('prev');
+                        } else {
+                            // Smooth scroll down within current screen
+                            activeScreen?.scrollBy({ top: 200, behavior: 'smooth' });
+                        }
+                    }
+                }
+                
+                // Horizontal swipes for back navigation
+                else if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+                    gestureInProgress = true;
+                    simulateHapticFeedback();
+                    
+                    if (deltaX > 0 && previousScreen) {
+                        // Swipe left - go back
+                        showScreenWithAnimation(previousScreen, 'slide-right');
+                    }
+                }
+            }
+            
+            // Reset gesture state
+            setTimeout(() => {
+                gestureInProgress = false;
+                isScrolling = false;
+            }, 100);
+        }
+
+        // Simulate haptic feedback with visual pulse
+        function simulateHapticFeedback() {
+            const activeScreen = document.querySelector('.screen.active');
+            if (activeScreen) {
+                activeScreen.style.transform = 'scale(0.98)';
+                activeScreen.style.transition = 'transform 0.1s ease';
+                setTimeout(() => {
+                    activeScreen.style.transform = 'scale(1)';
+                    setTimeout(() => {
+                        activeScreen.style.transition = '';
+                    }, 100);
+                }, 100);
+            }
+        }
+
+        // Keyboard shortcuts for scroll animations
+        function handleKeyboardNavigation(e) {
+            switch(e.key) {
+                case 'ArrowUp':
+                    e.preventDefault();
+                    navigateWithScroll('prev');
+                    break;
+                case 'ArrowDown':
+                    e.preventDefault();
+                    navigateWithScroll('next');
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    if (previousScreen) {
+                        showScreenWithAnimation(previousScreen, 'slide-right');
+                    }
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    navigateWithScroll('next');
+                    break;
+            }
+        }
+
+        // Initialize scroll and gesture system
+        function initializeScrollSystem() {
+            scrollIndicator = document.getElementById('scrollIndicator');
+            gestureOverlay = document.getElementById('gestureOverlay');
+            
+            // Add scroll listeners to all screens
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.addEventListener('scroll', () => {
+                    updateScrollIndicator();
+                    
+                    // Show scroll indicator while scrolling
+                    if (scrollTimeout) clearTimeout(scrollTimeout);
+                    scrollIndicator.classList.add('visible');
+                    
+                    scrollTimeout = setTimeout(() => {
+                        if (screen.scrollHeight <= screen.clientHeight) {
+                            scrollIndicator.classList.remove('visible');
+                        }
+                    }, 1000);
+                });
+            });
+            
+            // Add touch event listeners
+            document.addEventListener('touchstart', handleTouchStart, { passive: true });
+            document.addEventListener('touchmove', handleTouchMove, { passive: true });
+            document.addEventListener('touchend', handleTouchEnd, { passive: true });
+            
+            // Add keyboard navigation
+            document.addEventListener('keydown', handleKeyboardNavigation);
+            
+            // Initialize scroll animations for current screen
+            const activeScreen = document.querySelector('.screen.active');
+            if (activeScreen) {
+                animateScrollContent(activeScreen);
+                updateScreenProgress(activeScreen.id);
+            }
+        }
+
+        // Auto-focus first input when screen changes
+        function focusFirstInput() {
+            setTimeout(() => {
+                const activeScreen = document.querySelector('.screen.active');
+                const firstInput = activeScreen?.querySelector('input');
+                if (firstInput) {
+                    firstInput.focus();
+                }
+            }, 400);
+        }
+
+        // Override existing showScreen function to use animations
+        const originalShowScreen = window.showScreen || function(screenId) {
+            // Fallback implementation
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId)?.classList.add('active');
+        };
+        
+        window.showScreen = function(screenId) {
+            showScreenWithAnimation(screenId, 'scroll-up');
+            focusFirstInput();
+        };
+
+        // Device switching functionality
+        function switchDevice(deviceType) {
+            console.log('switchDevice called with:', deviceType);
+            const viewport = document.querySelector('.app-viewport');
+            const frame = document.querySelector('.pixel-frame');
+            const deviceOptions = document.querySelectorAll('.device-option');
+            
+            console.log('viewport element:', viewport);
+            console.log('frame element:', frame);
+            console.log('device options found:', deviceOptions.length);
+            
+            if (!viewport) {
+                console.error('No .app-viewport element found!');
+                return;
+            }
+            
+            if (!frame) {
+                console.error('No .pixel-frame element found!');
+                return;
+            }
+            
+            // Remove all device classes from viewport and frame
+            const deviceClasses = ['device-iphone14', 'device-pixel7', 'device-galaxys23', 'device-iphone13mini'];
+            viewport.classList.remove(...deviceClasses);
+            frame.classList.remove(...deviceClasses);
+            
+            // Remove active state from all options
+            deviceOptions.forEach(option => option.classList.remove('active'));
+            
+            // Add the selected device class to both viewport and frame
+            if (deviceType !== 'default') {
+                const deviceClass = `device-${deviceType}`;
+                viewport.classList.add(deviceClass);
+                frame.classList.add(deviceClass);
+                console.log('Added class:', deviceClass);
+                console.log('Viewport classes now:', viewport.className);
+                console.log('Frame classes now:', frame.className);
+            }
+            
+            // Add active state to selected option
+            const selectedOption = document.querySelector(`[data-device="${deviceType}"]`);
+            if (selectedOption) {
+                selectedOption.classList.add('active');
+                console.log('Set active option:', selectedOption);
+            } else {
+                console.error('Could not find option for device:', deviceType);
+            }
+        }
+
+        // CSS Inspector functionality
+        let currentInspectedElement = null;
+        let currentCSSContent = '';
+
+        function initializeCSSInspector() {
+            // Get all elements in the app container (excluding the design panel)
+            const appContainer = document.querySelector('.app-container');
+            if (!appContainer) {
+                console.log('App container not found, trying body');
+                // Fallback to body if app-container not found
+                const allElements = document.body.querySelectorAll('*:not(.design-panel):not(.design-panel *)');
+                addHoverListeners(allElements);
+                return;
+            }
+
+            const allElements = appContainer.querySelectorAll('*');
+            addHoverListeners(allElements);
+        }
+
+        function addHoverListeners(elements) {
+            elements.forEach(element => {
+                // Skip design panel elements
+                if (element.closest('.design-panel')) return;
+                
+                element.addEventListener('mouseenter', function(e) {
+                    e.stopPropagation();
+                    console.log('Hovering over:', this.tagName, this.className);
+                    inspectElement(this);
+                });
+                
+                element.addEventListener('mouseleave', function(e) {
+                    e.stopPropagation();
+                    // Don't clear immediately to allow for smooth transitions
+                });
+            });
+        }
+
+        function inspectElement(element) {
+            console.log('Inspecting element:', element);
+            currentInspectedElement = element;
+            const computedStyles = window.getComputedStyle(element);
+            const cssInspectorContent = document.getElementById('cssInspectorContent');
+            
+            console.log('CSS Inspector Content element:', cssInspectorContent);
+            if (!cssInspectorContent) {
+                console.error('cssInspectorContent not found!');
+                return;
+            }
+
+            // Get element info
+            const tagName = element.tagName.toLowerCase();
+            const className = element.className ? `.${element.className.split(' ').join('.')}` : '';
+            const elementId = element.id ? `#${element.id}` : '';
+            const elementSelector = `${tagName}${elementId}${className}`;
+
+            // Key CSS properties to display
+            const keyProperties = [
+                'display', 'position', 'width', 'height', 'margin', 'padding',
+                'background-color', 'color', 'font-size', 'font-weight', 'font-family',
+                'border', 'border-radius', 'box-shadow', 'opacity', 'z-index',
+                'flex-direction', 'justify-content', 'align-items', 'gap'
+            ];
+
+            let cssHTML = `<div class="css-element-info">${elementSelector}</div>`;
+            
+            keyProperties.forEach(property => {
+                const value = computedStyles.getPropertyValue(property);
+                if (value && value !== 'none' && value !== 'auto' && value !== 'normal' && value !== '0px') {
+                    cssHTML += `
+                        <div class="css-property">
+                            <span class="css-property-name">${property}:</span>
+                            <span class="css-property-value">${value};</span>
+                        </div>
+                    `;
+                }
+            });
+
+            // Store current CSS content for copying
+            currentCSSContent = keyProperties
+                .map(property => {
+                    const value = computedStyles.getPropertyValue(property);
+                    if (value && value !== 'none' && value !== 'auto' && value !== 'normal' && value !== '0px') {
+                        return `  ${property}: ${value};`;
+                    }
+                    return null;
+                })
+                .filter(Boolean)
+                .join('\n');
+
+            if (currentCSSContent) {
+                currentCSSContent = `${elementSelector} {\n${currentCSSContent}\n}`;
+            }
+
+            cssInspectorContent.innerHTML = cssHTML;
+        }
+
+        function copyCSSToClipboard() {
+            if (!currentCSSContent) {
+                alert('No CSS to copy. Hover over an element first.');
+                return;
+            }
+
+            navigator.clipboard.writeText(currentCSSContent).then(() => {
+                // Visual feedback
+                const copyBtn = document.querySelector('.copy-css-btn');
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<span class="material-icons">check</span>';
+                copyBtn.style.background = 'var(--md-sys-color-tertiary)';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                    copyBtn.style.background = 'var(--md-sys-color-primary)';
+                }, 1000);
+            }).catch(err => {
+                console.error('Failed to copy CSS: ', err);
+                alert('Failed to copy CSS to clipboard');
+            });
+        }
+
+        // Initialize developer tools on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show all design sections by default
+            const panels = document.querySelectorAll('.design-section');
+            panels.forEach(panel => panel.style.display = 'block');
+            
+            // Initialize scroll and gesture system
+            initializeScrollSystem();
+            
+            // Set default device (iPhone 14) as active
+            switchDevice('iphone14');
+            
+            // Initialize CSS Inspector
+            setTimeout(() => {
+                initializeCSSInspector();
+            }, 1000); // Delay to ensure all elements are loaded
+        });
+    </script>
+</body>
+</html>
