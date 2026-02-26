@@ -2,6 +2,7 @@
 setlocal enabledelayedexpansion
 
 echo "Port forwarding for Automated Testing"
+kubectl config use-context dev-fpro-aks
 kubectl config set-context --current --namespace=ingress-nginx
 if errorlevel 1 (
     echo.
